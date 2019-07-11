@@ -1,12 +1,13 @@
-import * as React from 'react';
+import * as React from 'react'
+import { users } from './users'
+console.log(users)
 
 class App extends React.Component<{}, {}> {
   render() {
-    return (<div>
-      <h1>Welcome to React with Typescript</h1>
-    </div>
-    );
+    return (
+      <div>Test</div>
+    )
   }
 }
 
-export default App;
+export default App
