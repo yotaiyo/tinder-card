@@ -63,20 +63,16 @@ class App extends React.Component<AppPropsType, AppStateType> {
 
   render() {
     const { showCard } = this.state
-    console.log(showCard)
+    const user = users[0]
     return (
       <Wrapper>
-        {/* <CSSTransition
-          classNames='input'
-          timeout={{ exit: 300, enter: 500 }}
+        <CSSTransition
           in={showCard}
-        > */}
-          {users.map((user, index) => {
-            return(
-              <Card icon={user.icon} nickName={user.nickName} age={user.age} />
-            )
-          })}
-        {/* </CSSTransition> */}
+          classNames='alert'
+          timeout={300}
+        >
+            <Card icon={user.icon} nickName={user.nickName} age={user.age} />
+        </CSSTransition>
 
         <ButtonWrapper>
           <Button 
