@@ -19,6 +19,7 @@
           "src/components/*"
         ],
       },
-      "noEmit": true 
+      "noEmit": true,
+      "skipLibCheck": true
     }
 }

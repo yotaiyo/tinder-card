@@ -1,20 +1,24 @@
 {
-  "scripts": { 
-    "start": "webpack-dev-server --mode development --open --hot", 
-    "build": "webpack --mode production" 
+  "scripts": {
+    "start": "webpack-dev-server --mode development --open --hot",
+    "build": "webpack --mode production"
   },
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.1",
+    "file-loader": "^4.0.0",
     "html-webpack-plugin": "^3.2.0",
     "typescript": "^3.5.3",
+    "url-loader": "^2.0.1",
     "webpack": "^4.35.3",
     "webpack-cli": "^3.3.5"
   },
   "dependencies": {
     "@types/react": "^16.8.23",
     "@types/react-dom": "^16.8.4",
+    "@types/styled-components": "^4.1.18",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "styled-components": "^4.3.2",
     "webpack-dev-server": "^3.7.2"
   }
 }
