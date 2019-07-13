@@ -14,11 +14,10 @@ const Wrapper = style.div`
 const CardWrapper = style.div`
   text-align: center;
   background-color: #FFF;
-`
-
-const Icon = style.img`
   width: ${width - 40}px;
   height: ${height - 120}px;
+  background: ${(props: { icon: string }) => props.icon ? `linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.3)), url(${props.icon})` : null};
+  background-size: cover;
   border-radius: 10px;
 `
 
@@ -29,7 +28,6 @@ const Body = style.div`
   top: ${height - 180}px;
   left: 25px;
   position: absolute;
-  background-color: rgba(192, 192, 192);
 `
 
 const ButtonWrapper = style.div`
@@ -47,18 +45,23 @@ const Button = style.div`
   margin-top: 20px;
 `
 
-const Card = ({ icon, nickName, age, }) => (
-    <CardWrapper>
-      <Icon src={icon} />
+const Card = ({ icon, nickName, age }: UsersType) => (
+    <CardWrapper icon={icon}>
       <Body>{nickName}, {age}</Body>
     </CardWrapper>
 )
 
 interface AppPropsType {}
 
+interface UsersType {
+  icon: string
+  nickName: string
+  age: number
+}
+
 interface AppStateType {
   showCard: boolean
-  users: { icon: string, nickName: string, age: number }[]
+  users: UsersType[]
   isLike: boolean
 }
 
