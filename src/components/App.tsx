@@ -5,9 +5,7 @@ import { CSSTransition } from 'react-transition-group'
 import './styles.css'
 
 const Wrapper = style.div`
-  margin-top: 100px;
   font-family: 'Vollkorn', serif;
-  padding: 20px;
 `
 
 const CardWrapper = style.div`
@@ -19,8 +17,7 @@ const CardWrapper = style.div`
   left: 0;
   right: 0;
   margin: 0 auto;
-  margin: 10px;
-
+  margin: 20px;
 `
 
 const Icon = style.img`
@@ -36,7 +33,7 @@ const ButtonWrapper = style.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 300px;
+  margin-top: 500px;
 `
 
 const Button = style.div`
@@ -48,7 +45,7 @@ const Button = style.div`
 `
 
 const Card = ({ icon, nickName, age, index }) => (
-    <CardWrapper style={{ top: 100 + index * 5 }}>
+    <CardWrapper style={{ top: 150 - index * 5 }}>
       <Icon src={icon} />
       <Body>{nickName}, {age}</Body>
     </CardWrapper>

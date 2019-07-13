@@ -1,30 +1,30 @@
 const user1 = {
     icon: '../../public/images/model_1.png',
-    nickName: 'user1',
+    nickName: 'Sophia',
     age: 25
 }
 
 const user2 = {
     icon: '../../public/images/model_2.png',
-    nickName: 'user2',
+    nickName: '蓮',
     age: 28
 }
 
 const user3 = {
     icon: '../../public/images/model_3.png',
-    nickName: 'user3',
+    nickName: '結月',
     age: 28
 }
 
 const user4 = {
     icon: '../../public/images/model_4.png',
-    nickName: 'user4',
+    nickName: 'Oliver',
     age: 45
 }
 
 const user5 = {
     icon: '../../public/images/model_5.png',
-    nickName: 'user5',
+    nickName: 'さくら',
     age: 15
 }
 
