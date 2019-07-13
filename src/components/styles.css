@@ -1,14 +1,8 @@
-.alert-enter {
-    opacity: 0;
-}
 .alert-enter-active {
-    opacity: 1;
-    transform: translate3d(100%, 0, 0);
-}
-.alert-exit {
-    opacity: 0;
+    transform: translateX(-300%) skew(90deg, -90deg);
+    transition-duration: 1s;
 }
 .alert-exit-active {
-    opacity: 1;
-    transform: translate3d(-100%, 0, 0);
+    transform: translateX(-300%) skew(90deg, -90deg);
+    transition-duration: 1s;
 }

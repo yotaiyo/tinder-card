@@ -51,19 +51,22 @@ interface AppPropsType {}
 
 interface AppStateType {
   showCard: boolean
+  users: { icon: string, nickName: string, age: number }[]
 }
 
 class App extends React.Component<AppPropsType, AppStateType> {
   constructor(props: AppPropsType) {
     super(props)
     this.state={
-      showCard: true
+      showCard: true,
+      users: users 
     }
   }
 
   render() {
-    const { showCard } = this.state
+    const { showCard, users } = this.state
     const user = users[0]
+
     return (
       <Wrapper>
         <CSSTransition
@@ -76,13 +79,19 @@ class App extends React.Component<AppPropsType, AppStateType> {
 
         <ButtonWrapper>
           <Button 
-            onClick={() => this.setState({ showCard: !showCard })}
+            onClick={() => {
+              this.setState({ showCard: !showCard })
+              this.setState({ users: users.slice(1, users.length).concat(users[0])})
+            }}
           >
             Nope
           </Button>
           <Button 
             style={{ marginLeft: 50 }} 
-            onClick={() => this.setState({ showCard: !showCard })}
+            onClick={() => {
+              this.setState({ showCard: !showCard })
+              this.setState({ users: users.slice(1, users.length).concat(users[0])})
+            }}
           >
             Like
           </Button>
