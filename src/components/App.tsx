@@ -12,13 +12,13 @@ const Wrapper = style.div`
 `
 
 const CardWrapper = style.div`
-  text-align: center;
   background-color: #FFF;
   width: ${width - 40}px;
   height: ${height - 120}px;
   background: ${(props: { icon: string }) => props.icon ? `linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.3)), url(${props.icon})` : null};
   background-size: cover;
   border-radius: 10px;
+  margin: 0 auto;
 `
 
 const Body = style.div`
@@ -26,7 +26,7 @@ const Body = style.div`
   font-size: 30px;
   font-weight: bold;
   top: ${height - 180}px;
-  left: 25px;
+  left: 30px;
   position: absolute;
 `
 
@@ -94,7 +94,7 @@ class App extends React.Component<AppPropsType, AppStateType> {
             onClick={() => {
               this.setState({ showCard: !showCard })
               this.setState({ isLike: false })
-              this.setState({ users: users.slice(1, users.length).concat(users[0])})
+              this.setState({ users: users.slice(1, users.length).concat(user)})
             }}
           >
             Nope
@@ -104,7 +104,7 @@ class App extends React.Component<AppPropsType, AppStateType> {
             onClick={() => {
               this.setState({ showCard: !showCard })
               this.setState({ isLike: true })
-              this.setState({ users: users.slice(1, users.length).concat(users[0])})
+              this.setState({ users: users.slice(1, users.length).concat(user)})
             }}
           >
             Like
