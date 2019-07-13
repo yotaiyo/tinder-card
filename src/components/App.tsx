@@ -4,48 +4,51 @@ import style from 'styled-components'
 import { CSSTransition } from 'react-transition-group'
 import './styles.css'
 
+const height = window.innerHeight
+const width = window.innerWidth
+
 const Wrapper = style.div`
   font-family: 'Vollkorn', serif;
 `
 
 const CardWrapper = style.div`
   text-align: center;
-  box-shadow: 0px 0px 6px 0.05px rgba(0,0,0,0.2);
-  padding: 20px;
-  position: absolute;
-  background-color: white;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  margin: 20px;
+  background-color: #FFF;
 `
 
 const Icon = style.img`
-  width: 200px;
+  width: ${width - 40}px;
+  height: ${height - 120}px;
+  border-radius: 10px;
 `
 
 const Body = style.div`
-  margin-top: 10px;
-  font-size: 15px;
+  color: #fff;
+  font-size: 30px;
+  font-weight: bold;
+  top: ${height - 180}px;
+  left: 25px;
+  position: absolute;
+  background-color: rgba(192, 192, 192);
 `
 
 const ButtonWrapper = style.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 500px;
 `
 
 const Button = style.div`
   background-color: #003399;
-  color: white;
+  color: #fff;
   border-radius: 5px;
   padding: 5px;
   font-size: 12px; 
+  margin-top: 20px;
 `
 
-const Card = ({ icon, nickName, age, index }) => (
-    <CardWrapper style={{ top: 150 - index * 5 }}>
+const Card = ({ icon, nickName, age, }) => (
+    <CardWrapper>
       <Icon src={icon} />
       <Body>{nickName}, {age}</Body>
     </CardWrapper>
@@ -64,31 +67,25 @@ class App extends React.Component<AppPropsType, AppStateType> {
     super(props)
     this.state={
       showCard: true,
-      users: users,
+      // 表示するカードの枚数の最大値は5枚
+      users: users.slice(0, 5),
       isLike: true
     }
   }
 
   render() {
     const { showCard, users, isLike } = this.state
+    const user = users[0]
 
     return (
       <Wrapper>
-          {users.map((user, index) => {
-            return (
-              index == users.length - 1 ?
-                <CSSTransition
-                  in={showCard}
-                  classNames={isLike ? 'like' : 'nope'}
-                  timeout={300}
-                  key={index}
-                >
-                  <Card icon={user.icon} nickName={user.nickName} age={user.age} index={index} />
-                </CSSTransition>
-              : <Card icon={user.icon} nickName={user.nickName} age={user.age} index={index} key={index} />
-            )
-          })}
-
+        <CSSTransition
+          in={showCard}
+          classNames={isLike ? 'like' : 'nope'}
+          timeout={300}
+        >
+          <Card icon={user.icon} nickName={user.nickName} age={user.age} />
+        </CSSTransition>
         <ButtonWrapper>
           <Button 
             onClick={() => {
