@@ -1,8 +1,17 @@
-.alert-enter-active {
+.nope-enter-active {
     transform: translateX(-300%) skew(90deg, -90deg);
     transition-duration: 1s;
 }
-.alert-exit-active {
+.nope-exit-active {
     transform: translateX(-300%) skew(90deg, -90deg);
+    transition-duration: 1s;
+}
+
+.like-enter-active {
+    transform: translateX(300%) skew(-90deg, 90deg);
+    transition-duration: 1s;
+}
+.like-exit-active {
+    transform: translateX(300%) skew(-90deg, 90deg);
     transition-duration: 1s;
 }

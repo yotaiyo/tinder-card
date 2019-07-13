@@ -14,6 +14,13 @@ const CardWrapper = style.div`
   text-align: center;
   box-shadow: 0px 0px 6px 0.05px rgba(0,0,0,0.2);
   padding: 20px;
+  position: absolute;
+  background-color: white;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  margin: 10px;
+
 `
 
 const Icon = style.img`
@@ -29,7 +36,7 @@ const ButtonWrapper = style.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 300px;
 `
 
 const Button = style.div`
@@ -40,8 +47,8 @@ const Button = style.div`
   font-size: 12px; 
 `
 
-const Card = ({ icon, nickName, age }) => (
-    <CardWrapper>
+const Card = ({ icon, nickName, age, index }) => (
+    <CardWrapper style={{ top: 100 + index * 5 }}>
       <Icon src={icon} />
       <Body>{nickName}, {age}</Body>
     </CardWrapper>
@@ -52,6 +59,7 @@ interface AppPropsType {}
 interface AppStateType {
   showCard: boolean
   users: { icon: string, nickName: string, age: number }[]
+  isLike: boolean
 }
 
 class App extends React.Component<AppPropsType, AppStateType> {
@@ -59,28 +67,36 @@ class App extends React.Component<AppPropsType, AppStateType> {
     super(props)
     this.state={
       showCard: true,
-      users: users 
+      users: users,
+      isLike: true
     }
   }
 
   render() {
-    const { showCard, users } = this.state
-    const user = users[0]
+    const { showCard, users, isLike } = this.state
 
     return (
       <Wrapper>
-        <CSSTransition
-          in={showCard}
-          classNames='alert'
-          timeout={300}
-        >
-            <Card icon={user.icon} nickName={user.nickName} age={user.age} />
-        </CSSTransition>
+          {users.map((user, index) => {
+            return (
+              index == users.length - 1 ?
+                <CSSTransition
+                  in={showCard}
+                  classNames={isLike ? 'like' : 'nope'}
+                  timeout={300}
+                  key={index}
+                >
+                  <Card icon={user.icon} nickName={user.nickName} age={user.age} index={index} />
+                </CSSTransition>
+              : <Card icon={user.icon} nickName={user.nickName} age={user.age} index={index} key={index} />
+            )
+          })}
 
         <ButtonWrapper>
           <Button 
             onClick={() => {
               this.setState({ showCard: !showCard })
+              this.setState({ isLike: false })
               this.setState({ users: users.slice(1, users.length).concat(users[0])})
             }}
           >
@@ -90,6 +106,7 @@ class App extends React.Component<AppPropsType, AppStateType> {
             style={{ marginLeft: 50 }} 
             onClick={() => {
               this.setState({ showCard: !showCard })
+              this.setState({ isLike: true })
               this.setState({ users: users.slice(1, users.length).concat(users[0])})
             }}
           >
