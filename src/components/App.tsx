@@ -2,32 +2,43 @@ import * as React from 'react'
 import { users } from './users'
 import style from 'styled-components'
 import { CSSTransition } from 'react-transition-group'
-import './styles.css'
+import './fadeout.css'
 
 const height = window.innerHeight
 const width = window.innerWidth
 
 const Wrapper = style.div`
   font-family: 'Vollkorn', serif;
+  width: ${width}px;
+  height: ${height}px;
+  background-color: #F5F5F5;
+  padding-top: 10px;
 `
 
 const CardWrapper = style.div`
-  background-color: #FFF;
-  width: ${width - 40}px;
-  height: ${height - 120}px;
+  width: ${width - 10}px;
+  height: ${height - 80}px;
   background: ${(props: { icon: string }) => props.icon ? `linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.3)), url(${props.icon})` : null};
   background-size: cover;
   border-radius: 10px;
   margin: 0 auto;
 `
 
-const Body = style.div`
+const UserInfo = style.div`
   color: #fff;
-  font-size: 30px;
-  font-weight: bold;
-  top: ${height - 180}px;
+  top: ${height - 120}px;
   left: 30px;
   position: absolute;
+`
+
+const NickName = style.span`
+  font-size: 30px;
+  font-weight: bold;
+`
+
+const Age = style.span`
+  font-size: 20px;
+  margin-left: 10px;
 `
 
 const ButtonWrapper = style.div`
@@ -36,18 +47,20 @@ const ButtonWrapper = style.div`
   justify-content: center;
 `
 
-const Button = style.div`
-  background-color: #003399;
-  color: #fff;
-  border-radius: 5px;
-  padding: 5px;
-  font-size: 12px; 
-  margin-top: 20px;
+const CircleButton = style.img`
+  width: 25px; 
+  margin-top: 15px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 30px;
 `
 
 const Card = ({ icon, nickName, age }: UsersType) => (
     <CardWrapper icon={icon}>
-      <Body>{nickName}, {age}</Body>
+      <UserInfo>
+        <NickName>{nickName}</NickName>
+        <Age>{age}</Age>
+      </UserInfo>
     </CardWrapper>
 )
 
@@ -90,25 +103,21 @@ class App extends React.Component<AppPropsType, AppStateType> {
           <Card icon={user.icon} nickName={user.nickName} age={user.age} />
         </CSSTransition>
         <ButtonWrapper>
-          <Button 
+          <CircleButton src={'../../public/images/x_mark_red.png'}
             onClick={() => {
               this.setState({ showCard: !showCard })
               this.setState({ isLike: false })
               this.setState({ users: users.slice(1, users.length).concat(user)})
             }}
-          >
-            Nope
-          </Button>
-          <Button 
+          />
+          <CircleButton src={'../../public/images/heart_green.png'} 
             style={{ marginLeft: 50 }} 
             onClick={() => {
               this.setState({ showCard: !showCard })
               this.setState({ isLike: true })
               this.setState({ users: users.slice(1, users.length).concat(user)})
             }}
-          >
-            Like
-          </Button>
+          />
         </ButtonWrapper>
       </Wrapper>
     )
