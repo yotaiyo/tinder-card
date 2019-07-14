@@ -1,17 +1,17 @@
 .nope-enter-active {
-    transform: translateX(-300%) skew(90deg, -90deg);
-    transition-duration: 1s;
+    transform: translateX(-400%) skew(90deg, -90deg);
+    transition-duration: 1.2s;
 }
 .nope-exit-active {
-    transform: translateX(-300%) skew(90deg, -90deg);
-    transition-duration: 1s;
+    transform: translateX(-400%) skew(90deg, -90deg);
+    transition-duration: 1.2s;
 }
 
 .like-enter-active {
-    transform: translateX(300%) skew(-90deg, 90deg);
-    transition-duration: 1s;
+    transform: translateX(400%) skew(-90deg, 90deg);
+    transition-duration: 1.2s;
 }
 .like-exit-active {
-    transform: translateX(300%) skew(-90deg, 90deg);
-    transition-duration: 1s;
+    transform: translateX(400%) skew(-90deg, 90deg);
+    transition-duration: 1.2s;
 }

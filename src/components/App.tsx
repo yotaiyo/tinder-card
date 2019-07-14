@@ -81,15 +81,18 @@ const CircleButton = style.img`
   border-radius: 30px;
 `
 
-interface CardType extends UsersType {
+interface CardType extends UserType {
   isLike: boolean
+  isFadeout: boolean
 }
 
-const Card = ({ icon, nickName, age, isLike }: CardType) => (
+const Card = ({ icon, nickName, age, isLike, isFadeout }: CardType) => (
     <CardWrapper icon={icon}>
-      {isLike ?
-        <Like>{'Like'}</Like>
-      : <Nope>{'Nope'}</Nope>
+      {isFadeout ? 
+        isLike ? 
+            <Like>{'Like'}</Like>
+          : <Nope>{'Nope'}</Nope>
+          : null
       }
       <UserInfo>
         <NickName>{nickName}</NickName>
@@ -100,61 +103,76 @@ const Card = ({ icon, nickName, age, isLike }: CardType) => (
 
 interface AppPropsType {}
 
-interface UsersType {
+interface UserType {
   icon: string
   nickName: string
   age: number
 }
 
 interface AppStateType {
-  showCard: boolean
-  users: UsersType[]
+  cssTransitionIn: boolean
+  users: UserType[]
   isLike: boolean
+  isFadeout: boolean
 }
 
 class App extends React.Component<AppPropsType, AppStateType> {
   constructor(props: AppPropsType) {
     super(props)
     this.state={
-      showCard: true,
+      cssTransitionIn: true,
       // 表示するカードの枚数の最大値は5枚
       users: users.slice(0, 5),
-      isLike: true
+      isLike: true,
+      isFadeout: false
     }
   }
 
   render() {
-    const { showCard, users, isLike } = this.state
+    const { cssTransitionIn, users, isLike, isFadeout } = this.state
     const user = users[0]
 
     return (
       <Wrapper>
         <CSSTransition
-          in={showCard}
+          in={cssTransitionIn}
           classNames={isLike ? 'like' : 'nope'}
-          timeout={300}
+          timeout={500}
         >
-          <Card icon={user.icon} nickName={user.nickName} age={user.age} isLike={isLike} />
+          <Card icon={user.icon} nickName={user.nickName} age={user.age} isLike={isLike} isFadeout={isFadeout} />
         </CSSTransition>
         <ButtonWrapper>
           <CircleButton src={'../../public/images/x_mark_red.png'}
-            onClick={() => {
-              this.setState({ showCard: !showCard })
-              this.setState({ isLike: false })
-              this.setState({ users: users.slice(1, users.length).concat(user)})
-            }}
+            onClick={() => this.onPressXButton(cssTransitionIn, user, users)}
           />
           <CircleButton src={'../../public/images/heart_green.png'} 
             style={{ marginLeft: 50 }} 
-            onClick={() => {
-              this.setState({ showCard: !showCard })
-              this.setState({ isLike: true })
-              this.setState({ users: users.slice(1, users.length).concat(user)})
-            }}
+            onClick={() => this.onPressHeartButton(cssTransitionIn, user, users)}
           />
         </ButtonWrapper>
       </Wrapper>
     )
+  }
+
+  private showNextUser(user: UserType, users: UserType[]) {
+    window.setTimeout(() => {
+      this.setState({ users: users.slice(1, users.length).concat(user)})
+      this.setState({ isFadeout: false})
+    }, 500)
+  }
+
+  private onPressXButton(cssTransitionIn: boolean, user: UserType, users: UserType[]) {
+    this.setState({ cssTransitionIn: !cssTransitionIn })
+    this.setState({ isLike: false })
+    this.setState({ isFadeout: true })
+    this.showNextUser(user, users)
+  }
+
+  private onPressHeartButton(cssTransitionIn: boolean, user: UserType, users: UserType[]) {
+    this.setState({ cssTransitionIn: !cssTransitionIn })
+    this.setState({ isLike: true })
+    this.setState({ isFadeout: true })
+    this.showNextUser(user, users)
   }
 }
 
