@@ -24,6 +24,32 @@ const CardWrapper = style.div`
   margin: 0 auto;
 `
 
+const Nope = style.div`
+  font-size: 40px;
+  font-weight: bold;
+  top: 50px;
+  right: 40px;
+  color: red;
+  transform: rotate(20deg);
+  position: absolute;
+  border: solid 3px red;
+  padding-left: 5px;
+  padding-right: 5px;
+`
+
+const Like = style.div`
+  font-size: 40px;
+  font-weight: bold;
+  top: 50px;
+  left: 40px;
+  color: green;
+  transform: rotate(-20deg);
+  position: absolute;
+  border: solid 3px green;
+  padding-left: 5px;
+  padding-right: 5px;
+`
+
 const UserInfo = style.div`
   color: #fff;
   top: ${height - 120}px;
@@ -55,8 +81,16 @@ const CircleButton = style.img`
   border-radius: 30px;
 `
 
-const Card = ({ icon, nickName, age }: UsersType) => (
+interface CardType extends UsersType {
+  isLike: boolean
+}
+
+const Card = ({ icon, nickName, age, isLike }: CardType) => (
     <CardWrapper icon={icon}>
+      {isLike ?
+        <Like>{'Like'}</Like>
+      : <Nope>{'Nope'}</Nope>
+      }
       <UserInfo>
         <NickName>{nickName}</NickName>
         <Age>{age}</Age>
@@ -100,7 +134,7 @@ class App extends React.Component<AppPropsType, AppStateType> {
           classNames={isLike ? 'like' : 'nope'}
           timeout={300}
         >
-          <Card icon={user.icon} nickName={user.nickName} age={user.age} />
+          <Card icon={user.icon} nickName={user.nickName} age={user.age} isLike={isLike} />
         </CSSTransition>
         <ButtonWrapper>
           <CircleButton src={'../../public/images/x_mark_red.png'}
