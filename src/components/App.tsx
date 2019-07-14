@@ -114,6 +114,7 @@ interface AppStateType {
   users: UserType[]
   isLike: boolean
   isFadeout: boolean
+  isOnPress: boolean
 }
 
 class App extends React.Component<AppPropsType, AppStateType> {
@@ -124,12 +125,13 @@ class App extends React.Component<AppPropsType, AppStateType> {
       // 表示するカードの枚数の最大値は5枚
       users: users.slice(0, 5),
       isLike: true,
-      isFadeout: false
+      isFadeout: false,
+      isOnPress: false
     }
   }
 
   render() {
-    const { cssTransitionIn, users, isLike, isFadeout } = this.state
+    const { cssTransitionIn, users, isLike, isFadeout, isOnPress } = this.state
     const user = users[0]
 
     return (
@@ -142,12 +144,14 @@ class App extends React.Component<AppPropsType, AppStateType> {
           <Card icon={user.icon} nickName={user.nickName} age={user.age} isLike={isLike} isFadeout={isFadeout} />
         </CSSTransition>
         <ButtonWrapper>
-          <CircleButton src={'../../public/images/x_mark_red.png'}
-            onClick={() => this.onPressXButton(cssTransitionIn, user, users)}
+          <CircleButton 
+            src={'../../public/images/x_mark_red.png'}
+            onClick={() => isOnPress ? null : this.onPressXButton(cssTransitionIn, user, users)}
           />
-          <CircleButton src={'../../public/images/heart_green.png'} 
+          <CircleButton 
+            src={'../../public/images/heart_green.png'} 
             style={{ marginLeft: 50 }} 
-            onClick={() => this.onPressHeartButton(cssTransitionIn, user, users)}
+            onClick={() => isOnPress ? null : this.onPressHeartButton(cssTransitionIn, user, users)}
           />
         </ButtonWrapper>
       </Wrapper>
@@ -158,6 +162,7 @@ class App extends React.Component<AppPropsType, AppStateType> {
     window.setTimeout(() => {
       this.setState({ users: users.slice(1, users.length).concat(user)})
       this.setState({ isFadeout: false})
+      this.setState({ isOnPress: false })
     }, 500)
   }
 
@@ -165,6 +170,7 @@ class App extends React.Component<AppPropsType, AppStateType> {
     this.setState({ cssTransitionIn: !cssTransitionIn })
     this.setState({ isLike: false })
     this.setState({ isFadeout: true })
+    this.setState({ isOnPress: true })
     this.showNextUser(user, users)
   }
 
@@ -172,6 +178,7 @@ class App extends React.Component<AppPropsType, AppStateType> {
     this.setState({ cssTransitionIn: !cssTransitionIn })
     this.setState({ isLike: true })
     this.setState({ isFadeout: true })
+    this.setState({ isOnPress: true })
     this.showNextUser(user, users)
   }
 }
