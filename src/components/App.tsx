@@ -121,8 +121,7 @@ class App extends React.Component<AppPropsType, AppStateType> {
     super(props)
     this.state={
       cssTransitionIn: true,
-      // 表示するカードの枚数の最大値は5枚
-      users: users.slice(0, 5),
+      users: users,
       isLike: true,
       isFadeout: false,
       isOnPress: false
