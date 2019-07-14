@@ -52,9 +52,8 @@ const Like = style.div`
 
 const UserInfo = style.div`
   color: #fff;
-  top: ${height - 120}px;
-  left: 30px;
-  position: absolute;
+  padding-top: ${height - 130}px;
+  padding-left: 20px;
 `
 
 const NickName = style.span`
