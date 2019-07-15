@@ -128,8 +128,8 @@ interface AppPropsType extends AppStateType {
     user: UserType,
     onPressXButton: (cssTransitionIn: boolean, user: UserType, users: UserType[]) => void
     onPressHeartButton: (cssTransitionIn: boolean, user: UserType, users: UserType[]) => void
-    onTouchMoveCard: () => void
-    onTouchEndCard: (user: UserType, users: UserType[], cardHorizontalPosition: number | null) => void
+    handeTouchMove: () => void
+    handeTouchEnd: (user: UserType, users: UserType[], cardHorizontalPosition: number | null) => void
 }
 
 export const AppScreen: React.SFC<AppPropsType> = ({
@@ -142,13 +142,13 @@ export const AppScreen: React.SFC<AppPropsType> = ({
     user,
     onPressXButton,
     onPressHeartButton,
-    onTouchMoveCard,
+    handeTouchMove,
     isSwipe,
-    onTouchEndCard
+    handeTouchEnd
 }) => {
     return (
         <Wrapper>
-            <SwipeableViews index={1} onTouchMove={() => onTouchMoveCard()} onTouchEnd={() => onTouchEndCard(user, users, cardHorizontalPosition)}>
+            <SwipeableViews index={1} onTouchMove={() => handeTouchMove()} onTouchEnd={() => handeTouchEnd(user, users, cardHorizontalPosition)}>
                 <div></div>
                 <CSSTransition
                     in={cssTransitionIn}

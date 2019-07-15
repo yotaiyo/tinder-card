@@ -40,9 +40,9 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
       user,
       onPressXButton: this.onPressXButton,
       onPressHeartButton: this.onPressHeartButton,
-      onTouchMoveCard: this.onTouchMoveCard,
+      handeTouchMove: this.handeTouchMove,
       isSwipe,
-      onTouchEndCard: this.onTouchEndCard
+      handeTouchEnd: this.handeTouchEnd
     }
 
     return <AppScreen {...passProps} />
@@ -74,7 +74,7 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
     this.showNextUser(user, users)
   }
 
-  private onTouchMoveCard = () => {
+  private handeTouchMove = () => {
     const element = document.getElementById('card')
     const rect =  element ? element.getBoundingClientRect() : null
     const left = rect ? rect.left : null
@@ -82,7 +82,7 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
     this.setState({ cardHorizontalPosition: left })
   }
 
-  private onTouchEndCard = (user: UserType, users: UserType[], cardHorizontalPosition: number | null) => {
+  private handeTouchEnd = (user: UserType, users: UserType[], cardHorizontalPosition: number | null) => {
     this.setState({ isSwipe: false })
     if (cardHorizontalPosition > 50 || cardHorizontalPosition < -50 ) {
       this.setState({ cardHorizontalPosition: 5 })     
