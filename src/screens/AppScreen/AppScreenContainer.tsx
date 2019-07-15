@@ -10,6 +10,7 @@ export interface AppStateType {
   isFadeout: boolean
   isOnPress: boolean
   cardHorizontalPosition: number | null
+  isSwipe: boolean
 }
 
 class AppScreenContainer extends React.Component<{}, AppStateType> {
@@ -21,13 +22,13 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
       isLike: true,
       isFadeout: false,
       isOnPress: false,
-      cardHorizontalPosition: null
+      cardHorizontalPosition: null,
+      isSwipe: false
     }
   }
 
   render() {
-    const { cssTransitionIn, users, isLike, isFadeout, isOnPress, cardHorizontalPosition } = this.state
-    console.log(cardHorizontalPosition)
+    const { cssTransitionIn, users, isLike, isFadeout, isOnPress, cardHorizontalPosition, isSwipe } = this.state
     const user = users[0]
     const passProps = {
       cssTransitionIn,
@@ -39,7 +40,9 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
       user,
       onPressXButton: this.onPressXButton,
       onPressHeartButton: this.onPressHeartButton,
-      onTouchMoveCard: this.onTouchMoveCard
+      onTouchMoveCard: this.onTouchMoveCard,
+      isSwipe,
+      onTouchEndCard: this.onTouchEndCard
     }
 
     return <AppScreen {...passProps} />
@@ -56,6 +59,7 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
   private onPressXButton = (cssTransitionIn: boolean, user: UserType, users: UserType[]) => {
     this.setState({ cssTransitionIn: !cssTransitionIn })
     this.setState({ isLike: false })
+    this.setState({ isSwipe: false })
     this.setState({ isFadeout: true })
     this.setState({ isOnPress: true })
     this.showNextUser(user, users)
@@ -64,6 +68,7 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
   private onPressHeartButton = (cssTransitionIn: boolean, user: UserType, users: UserType[]) => {
     this.setState({ cssTransitionIn: !cssTransitionIn })
     this.setState({ isLike: true })
+    this.setState({ isSwipe: false })
     this.setState({ isFadeout: true })
     this.setState({ isOnPress: true })
     this.showNextUser(user, users)
@@ -73,7 +78,16 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
     const element = document.getElementById('card')
     const rect =  element ? element.getBoundingClientRect() : null
     const left = rect ? rect.left : null
+    this.setState({ isSwipe: true })
     this.setState({ cardHorizontalPosition: left })
+  }
+
+  private onTouchEndCard = (user: UserType, users: UserType[], cardHorizontalPosition: number | null) => {
+    this.setState({ isSwipe: false })
+    if (cardHorizontalPosition > 50 || cardHorizontalPosition < -50 ) {
+      this.setState({ cardHorizontalPosition: 5 })     
+      this.setState({ users: users.slice(1, users.length).concat(user) })     
+    }
   }
 }
 
