@@ -9,6 +9,7 @@ export interface AppStateType {
   isLike: boolean
   isFadeout: boolean
   isOnPress: boolean
+  cardHorizontalPosition: number | null
 }
 
 class AppScreenContainer extends React.Component<{}, AppStateType> {
@@ -19,12 +20,14 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
       users: users,
       isLike: true,
       isFadeout: false,
-      isOnPress: false
+      isOnPress: false,
+      cardHorizontalPosition: null
     }
   }
 
   render() {
-    const { cssTransitionIn, users, isLike, isFadeout, isOnPress } = this.state
+    const { cssTransitionIn, users, isLike, isFadeout, isOnPress, cardHorizontalPosition } = this.state
+    console.log(cardHorizontalPosition)
     const user = users[0]
     const passProps = {
       cssTransitionIn,
@@ -32,9 +35,11 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
       isLike,
       isFadeout,
       isOnPress,
+      cardHorizontalPosition,
       user,
       onPressXButton: this.onPressXButton,
-      onPressHeartButton: this.onPressHeartButton
+      onPressHeartButton: this.onPressHeartButton,
+      onTouchMoveCard: this.onTouchMoveCard
     }
 
     return <AppScreen {...passProps} />
@@ -62,6 +67,13 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
     this.setState({ isFadeout: true })
     this.setState({ isOnPress: true })
     this.showNextUser(user, users)
+  }
+
+  private onTouchMoveCard = () => {
+    const element = document.getElementById('card')
+    const rect =  element ? element.getBoundingClientRect() : null
+    const left = rect ? rect.left : null
+    this.setState({ cardHorizontalPosition: left })
   }
 }
 

@@ -80,19 +80,20 @@ const CircleButton = style.img`
   border-radius: 30px;
 `
 
-interface CardType extends UserType {
-  isLike: boolean
-  isFadeout: boolean
-}
-
 export interface UserType {
     icon: string
     nickName: string
     age: number
 }
 
-const Card = ({ icon, nickName, age, isLike, isFadeout }: CardType) => (
-    <CardWrapper icon={icon}>
+interface CardType extends UserType {
+    isLike: boolean
+    isFadeout: boolean
+    cardHorizontalPosition: number | null
+}
+
+const Card = ({ icon, nickName, age, isLike, isFadeout, cardHorizontalPosition }: CardType) => (
+    <CardWrapper icon={icon} id={'card'}>
         {isFadeout ? 
             isLike ? 
                 <Like>{'Like'}</Like>
@@ -110,6 +111,7 @@ interface AppPropsType extends AppStateType {
     user: UserType,
     onPressXButton: (cssTransitionIn: boolean, user: UserType, users: UserType[]) => void
     onPressHeartButton: (cssTransitionIn: boolean, user: UserType, users: UserType[]) => void
+    onTouchMoveCard: () => void
 }
 
 export const AppScreen: React.SFC<AppPropsType> = ({
@@ -118,20 +120,22 @@ export const AppScreen: React.SFC<AppPropsType> = ({
     isLike,
     isFadeout,
     isOnPress,
+    cardHorizontalPosition,
     user,
     onPressXButton,
-    onPressHeartButton
+    onPressHeartButton,
+    onTouchMoveCard
 }) => {
     return (
         <Wrapper>
-            <SwipeableViews index={1}>
+            <SwipeableViews index={1} onTouchMove={() => onTouchMoveCard()}>
                 <div></div>
                 <CSSTransition
                     in={cssTransitionIn}
                     classNames={isLike ? 'like' : 'nope'}
                     timeout={500}
                 >
-                    <Card icon={user.icon} nickName={user.nickName} age={user.age} isLike={isLike} isFadeout={isFadeout} />
+                    <Card icon={user.icon} nickName={user.nickName} age={user.age} isLike={isLike} isFadeout={isFadeout} cardHorizontalPosition={cardHorizontalPosition} />
                 </CSSTransition>
                 <div></div>
             </SwipeableViews>
