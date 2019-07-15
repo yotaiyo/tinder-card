@@ -2,6 +2,7 @@ import * as React from 'react'
 import style from 'styled-components'
 import { CSSTransition } from 'react-transition-group'
 import { AppStateType } from './AppScreenContainer'
+import SwipeableViews from 'react-swipeable-views'
 
 const height = window.innerHeight
 const width = window.innerWidth
@@ -92,16 +93,16 @@ export interface UserType {
 
 const Card = ({ icon, nickName, age, isLike, isFadeout }: CardType) => (
     <CardWrapper icon={icon}>
-      {isFadeout ? 
-        isLike ? 
-            <Like>{'Like'}</Like>
-          : <Nope>{'Nope'}</Nope>
-          : null
-      }
-      <UserInfo>
-        <NickName>{nickName}</NickName>
-        <Age>{age}</Age>
-      </UserInfo>
+        {isFadeout ? 
+            isLike ? 
+                <Like>{'Like'}</Like>
+                : <Nope>{'Nope'}</Nope>
+        : null
+        }
+        <UserInfo>
+            <NickName>{nickName}</NickName>
+            <Age>{age}</Age>
+        </UserInfo>
     </CardWrapper>
 )
 
@@ -123,13 +124,17 @@ export const AppScreen: React.SFC<AppPropsType> = ({
 }) => {
     return (
         <Wrapper>
-            <CSSTransition
-            in={cssTransitionIn}
-            classNames={isLike ? 'like' : 'nope'}
-            timeout={500}
-            >
-                <Card icon={user.icon} nickName={user.nickName} age={user.age} isLike={isLike} isFadeout={isFadeout} />
-            </CSSTransition>
+            <SwipeableViews index={1}>
+                <div></div>
+                <CSSTransition
+                    in={cssTransitionIn}
+                    classNames={isLike ? 'like' : 'nope'}
+                    timeout={500}
+                >
+                    <Card icon={user.icon} nickName={user.nickName} age={user.age} isLike={isLike} isFadeout={isFadeout} />
+                </CSSTransition>
+                <div></div>
+            </SwipeableViews>
             <ButtonWrapper>
                 <CircleButton 
                     src={'../../public/images/x_mark_red.png'}
