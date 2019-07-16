@@ -2,11 +2,7 @@ import * as React from 'react'
 import style from 'styled-components'
 import { CSSTransition } from 'react-transition-group'
 import { AppStateType } from './AppScreenContainer'
-import SwipeableViews, { SwipeableViewsProps } from 'react-swipeable-views'
-import { virtualize, bindKeyboard } from 'react-swipeable-views-utils' 
-
-type VirtualizeSwipeableViewsProps = SwipeableViewsProps & { slideRenderer: any; slideCount: any }
-const VirtualizeSwipeableViews: React.FC<VirtualizeSwipeableViewsProps> = bindKeyboard(virtualize(SwipeableViews))
+import SwipeableView from 'react-swipeable-views'
 
 const height = window.innerHeight
 const width = window.innerWidth
@@ -159,35 +155,32 @@ export const AppScreen: React.SFC<AppPropsType> = ({
 }) => {
     return (
         <Wrapper>
-            <VirtualizeSwipeableViews 
-              slideRenderer={({ index, key }) => {
-                return (
-                  index === 1 ? 
-                    <CSSTransition
-                      in={cssTransitionIn}
-                      classNames={isLike ? 'like' : 'nope'}
-                      timeout={500}
-                      key={key}
-                    >
-                      <Card 
-                        icon={user.icon} 
-                        nickName={user.nickName} 
-                        age={user.age} 
-                        isLike={isLike} 
-                        isFadeout={isFadeout} 
-                        cardHorizontalPosition={cardHorizontalPosition} 
-                        isSwipe={isSwipe}
-                      />
-                    </CSSTransition> 
-                  : <div key={key} />
-              )}} 
+            <SwipeableView 
               index={index}
               onTouchMove={() => handleTouchMove()} 
               onTouchEnd={() => handleTouchEnd(user, users, cardHorizontalPosition, index)} 
-              slideCount={3}
               onChangeIndex={(index) => handleChangeIndex(index)}
               onTransitionEnd={() => handleTransitionEnd(index)}
-            />
+              hysteresis={1}
+            >  
+                <div />
+                <CSSTransition
+                  in={cssTransitionIn}
+                  classNames={isLike ? 'like' : 'nope'}
+                  timeout={500}
+                >
+                  <Card 
+                    icon={user.icon} 
+                    nickName={user.nickName} 
+                    age={user.age} 
+                    isLike={isLike} 
+                    isFadeout={isFadeout} 
+                    cardHorizontalPosition={cardHorizontalPosition} 
+                    isSwipe={isSwipe}
+                  />
+                </CSSTransition> 
+                <div />
+            </SwipeableView> 
             <ButtonWrapper>
                 <CircleButton 
                     src={'../../public/images/x_mark_red.png'}
