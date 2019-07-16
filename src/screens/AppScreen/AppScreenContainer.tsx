@@ -11,6 +11,7 @@ export interface AppStateType {
   isOnPress: boolean
   cardHorizontalPosition: number | null
   isSwipe: boolean
+  index: number
 }
 
 class AppScreenContainer extends React.Component<{}, AppStateType> {
@@ -23,12 +24,13 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
       isFadeout: false,
       isOnPress: false,
       cardHorizontalPosition: null,
-      isSwipe: false
+      isSwipe: false,
+      index: 1
     }
   }
 
   render() {
-    const { cssTransitionIn, users, isLike, isFadeout, isOnPress, cardHorizontalPosition, isSwipe } = this.state
+    const { cssTransitionIn, users, isLike, isFadeout, isOnPress, cardHorizontalPosition, isSwipe, index } = this.state
     const user = users[0]
     const passProps = {
       cssTransitionIn,
@@ -40,9 +42,12 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
       user,
       onPressXButton: this.onPressXButton,
       onPressHeartButton: this.onPressHeartButton,
-      handeTouchMove: this.handeTouchMove,
+      handleTouchMove: this.handleTouchMove,
       isSwipe,
-      handeTouchEnd: this.handeTouchEnd
+      handleTouchEnd: this.handleTouchEnd,
+      index,
+      handleChangeIndex: this.handleChangeIndex,
+      handleTransitionEnd: this.handleTransitionEnd
     }
 
     return <AppScreen {...passProps} />
@@ -64,18 +69,27 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
     this.showNextUser(user, users)
   }
 
-  private handeTouchMove = () => {
+  private handleTouchMove = () => {
     const element = document.getElementById('card')
     const rect =  element ? element.getBoundingClientRect() : null
     const left = rect ? rect.left : null
     this.setState({ isSwipe: true, cardHorizontalPosition: left })
   }
 
-  private handeTouchEnd = (user: UserType, users: UserType[], cardHorizontalPosition: number | null) => {
-    this.setState({ isSwipe: false })
+  private handleTouchEnd = (user: UserType, users: UserType[], cardHorizontalPosition: number | null, index: number) => {
+    this.setState({ isSwipe: false  })
+    this.setState({ index: index !== 1 ? 1 : 1 })
     if (cardHorizontalPosition > 50 || cardHorizontalPosition < -50 ) {
       this.setState({ cardHorizontalPosition: 5, users: users.slice(1, users.length).concat(user) })
     }
+  }
+
+  private handleChangeIndex = (index: number) => {
+    this.setState({ index: index  })
+  }
+
+  private handleTransitionEnd = (index: number) => {
+    this.setState({ index: index !== 1 ? 1 : 1 })
   }
 }
 

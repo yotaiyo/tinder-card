@@ -2,7 +2,11 @@ import * as React from 'react'
 import style from 'styled-components'
 import { CSSTransition } from 'react-transition-group'
 import { AppStateType } from './AppScreenContainer'
-import SwipeableViews from 'react-swipeable-views'
+import SwipeableViews, { SwipeableViewsProps } from 'react-swipeable-views'
+import { virtualize, bindKeyboard } from 'react-swipeable-views-utils' 
+
+type VirtualizeSwipeableViewsProps = SwipeableViewsProps & { slideRenderer: any; slideCount: any }
+const VirtualizeSwipeableViews: React.FC<VirtualizeSwipeableViewsProps> = bindKeyboard(virtualize(SwipeableViews))
 
 const height = window.innerHeight
 const width = window.innerWidth
@@ -86,7 +90,8 @@ export interface UserType {
     age: number
 }
 
-const LikeOrNopeSquare = ({ isFadeout, isLike, cardHorizontalPosition, isSwipe }) => (
+const LikeOrNopeSquare = ({ isFadeout, isLike, cardHorizontalPosition, isSwipe }) => {
+  return(
     <>
       {isFadeout && !isSwipe ? 
         isLike ? 
@@ -105,7 +110,8 @@ const LikeOrNopeSquare = ({ isFadeout, isLike, cardHorizontalPosition, isSwipe }
             : null            
       }
     </>
-)
+  )
+}
 
 interface CardType extends UserType {
     isLike: boolean
@@ -128,8 +134,10 @@ interface AppPropsType extends AppStateType {
     user: UserType,
     onPressXButton: (cssTransitionIn: boolean, user: UserType, users: UserType[]) => void
     onPressHeartButton: (cssTransitionIn: boolean, user: UserType, users: UserType[]) => void
-    handeTouchMove: () => void
-    handeTouchEnd: (user: UserType, users: UserType[], cardHorizontalPosition: number | null) => void
+    handleTouchMove: () => void
+    handleTouchEnd: (user: UserType, users: UserType[], cardHorizontalPosition: number | null, index: number) => void
+    handleChangeIndex: (index: number) => void
+    handleTransitionEnd: (index: number) => void
 }
 
 export const AppScreen: React.SFC<AppPropsType> = ({
@@ -142,31 +150,44 @@ export const AppScreen: React.SFC<AppPropsType> = ({
     user,
     onPressXButton,
     onPressHeartButton,
-    handeTouchMove,
+    handleTouchMove,
     isSwipe,
-    handeTouchEnd
+    handleTouchEnd,
+    index,
+    handleChangeIndex,
+    handleTransitionEnd
 }) => {
     return (
         <Wrapper>
-            <SwipeableViews index={1} onTouchMove={() => handeTouchMove()} onTouchEnd={() => handeTouchEnd(user, users, cardHorizontalPosition)}>
-                <div></div>
-                <CSSTransition
-                    in={cssTransitionIn}
-                    classNames={isLike ? 'like' : 'nope'}
-                    timeout={500}
-                >
-                    <Card 
-                      icon={user.icon} 
-                      nickName={user.nickName} 
-                      age={user.age} 
-                      isLike={isLike} 
-                      isFadeout={isFadeout} 
-                      cardHorizontalPosition={cardHorizontalPosition} 
-                      isSwipe={isSwipe}
-                    />
-                </CSSTransition>
-                <div></div>
-            </SwipeableViews>
+            <VirtualizeSwipeableViews 
+              slideRenderer={({ index, key }) => {
+                return (
+                  index === 1 ? 
+                    <CSSTransition
+                      in={cssTransitionIn}
+                      classNames={isLike ? 'like' : 'nope'}
+                      timeout={500}
+                      key={key}
+                    >
+                      <Card 
+                        icon={user.icon} 
+                        nickName={user.nickName} 
+                        age={user.age} 
+                        isLike={isLike} 
+                        isFadeout={isFadeout} 
+                        cardHorizontalPosition={cardHorizontalPosition} 
+                        isSwipe={isSwipe}
+                      />
+                    </CSSTransition> 
+                  : <div key={key} />
+              )}} 
+              index={index}
+              onTouchMove={() => handleTouchMove()} 
+              onTouchEnd={() => handleTouchEnd(user, users, cardHorizontalPosition, index)} 
+              slideCount={3}
+              onChangeIndex={(index) => handleChangeIndex(index)}
+              onTransitionEnd={() => handleTransitionEnd(index)}
+            />
             <ButtonWrapper>
                 <CircleButton 
                     src={'../../public/images/x_mark_red.png'}
