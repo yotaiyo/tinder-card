@@ -81,9 +81,9 @@ const CircleButton = style.img`
 `
 
 export interface UserType {
-    icon: string
-    nickName: string
-    age: number
+  icon: string
+  nickName: string
+  age: number
 }
 
 const LikeOrNopeSquare = ({ isFadeout, isLike, cardHorizontalPosition, isSwipe }) => {
@@ -91,107 +91,107 @@ const LikeOrNopeSquare = ({ isFadeout, isLike, cardHorizontalPosition, isSwipe }
     <>
       {isFadeout && !isSwipe ? 
         isLike ? 
-            <Like>Like</Like>
-            : <Nope>Nope</Nope>
+          <Like>Like</Like>
+          : <Nope>Nope</Nope>
       : null
       }
       {!isFadeout && isSwipe &&
         cardHorizontalPosition > 50 ?
-            <Like style={{ left: width + 40 }}>Like</Like>
-            : null
+          <Like style={{ left: width + 40 }}>Like</Like>
+          : null
       }
       {!isFadeout && isSwipe &&   
         cardHorizontalPosition < -50 ?
-            <Nope style={{ right: -width + 40 }} >Nope</Nope>
-            : null            
+          <Nope style={{ right: -width + 40 }} >Nope</Nope>
+          : null            
       }
     </>
   )
 }
 
 interface CardType extends UserType {
-    isLike: boolean
-    isFadeout: boolean
-    cardHorizontalPosition: number | null
-    isSwipe: boolean
+  isLike: boolean
+  isFadeout: boolean
+  cardHorizontalPosition: number | null
+  isSwipe: boolean
 }
 
 const Card = ({ icon, nickName, age, isLike, isFadeout, cardHorizontalPosition, isSwipe }: CardType) => (
-    <CardWrapper icon={icon} id={'card'}>
-        <LikeOrNopeSquare isFadeout={isFadeout} isLike={isLike} cardHorizontalPosition={cardHorizontalPosition} isSwipe={isSwipe} />
-        <UserInfo>
-            <NickName>{nickName}</NickName>
-            <Age>{age}</Age>
-        </UserInfo>
-    </CardWrapper>
+  <CardWrapper icon={icon} id={'card'}>
+      <LikeOrNopeSquare isFadeout={isFadeout} isLike={isLike} cardHorizontalPosition={cardHorizontalPosition} isSwipe={isSwipe} />
+      <UserInfo>
+          <NickName>{nickName}</NickName>
+          <Age>{age}</Age>
+      </UserInfo>
+  </CardWrapper>
 )
 
 interface AppPropsType extends AppStateType {
-    user: UserType,
-    onPressXButton: (cssTransitionIn: boolean, user: UserType, users: UserType[]) => void
-    onPressHeartButton: (cssTransitionIn: boolean, user: UserType, users: UserType[]) => void
-    handleTouchMove: () => void
-    handleTouchEnd: (user: UserType, users: UserType[], cardHorizontalPosition: number | null, index: number) => void
-    handleChangeIndex: (index: number) => void
-    handleTransitionEnd: (index: number) => void
+  user: UserType,
+  onPressXButton: (cssTransitionIn: boolean, user: UserType, users: UserType[]) => void
+  onPressHeartButton: (cssTransitionIn: boolean, user: UserType, users: UserType[]) => void
+  handleTouchMove: () => void
+  handleTouchEnd: (user: UserType, users: UserType[], cardHorizontalPosition: number | null, index: number) => void
+  handleChangeIndex: (index: number) => void
+  handleTransitionEnd: (index: number) => void
 }
 
 export const AppScreen: React.SFC<AppPropsType> = ({
-    cssTransitionIn,
-    users,
-    isLike,
-    isFadeout,
-    isOnPress,
-    cardHorizontalPosition,
-    user,
-    onPressXButton,
-    onPressHeartButton,
-    handleTouchMove,
-    isSwipe,
-    handleTouchEnd,
-    index,
-    handleChangeIndex,
-    handleTransitionEnd
+  cssTransitionIn,
+  users,
+  isLike,
+  isFadeout,
+  isOnPress,
+  cardHorizontalPosition,
+  user,
+  onPressXButton,
+  onPressHeartButton,
+  handleTouchMove,
+  isSwipe,
+  handleTouchEnd,
+  index,
+  handleChangeIndex,
+  handleTransitionEnd
 }) => {
     return (
         <Wrapper>
-            <SwipeableView 
-              index={index}
-              onTouchMove={() => handleTouchMove()} 
-              onTouchEnd={() => handleTouchEnd(user, users, cardHorizontalPosition, index)} 
-              onChangeIndex={(index) => handleChangeIndex(index)}
-              onTransitionEnd={() => handleTransitionEnd(index)}
-              hysteresis={1}
-            >  
-                <div />
-                <CSSTransition
-                  in={cssTransitionIn}
-                  classNames={isLike ? 'like' : 'nope'}
-                  timeout={500}
-                >
-                  <Card 
-                    icon={user.icon} 
-                    nickName={user.nickName} 
-                    age={user.age} 
-                    isLike={isLike} 
-                    isFadeout={isFadeout} 
-                    cardHorizontalPosition={cardHorizontalPosition} 
-                    isSwipe={isSwipe}
-                  />
-                </CSSTransition> 
-                <div />
-            </SwipeableView> 
-            <ButtonWrapper>
-                <CircleButton 
-                    src={'../../public/images/x_mark_red.png'}
-                    onClick={() => isOnPress ? null : onPressXButton(cssTransitionIn, user, users)}
-                />
-                <CircleButton 
-                    src={'../../public/images/heart_green.png'} 
-                    style={{ marginLeft: 50 }} 
-                    onClick={() => isOnPress ? null : onPressHeartButton(cssTransitionIn, user, users)}
-                />
-            </ButtonWrapper>
+          <SwipeableView 
+            index={index}
+            onTouchMove={() => handleTouchMove()} 
+            onTouchEnd={() => handleTouchEnd(user, users, cardHorizontalPosition, index)} 
+            onChangeIndex={(index) => handleChangeIndex(index)}
+            onTransitionEnd={() => handleTransitionEnd(index)}
+            hysteresis={1}
+          >  
+            <div />
+            <CSSTransition
+              in={cssTransitionIn}
+              classNames={isLike ? 'like' : 'nope'}
+              timeout={500}
+            >
+              <Card 
+                icon={user.icon} 
+                nickName={user.nickName} 
+                age={user.age} 
+                isLike={isLike} 
+                isFadeout={isFadeout} 
+                cardHorizontalPosition={cardHorizontalPosition} 
+                isSwipe={isSwipe}
+              />
+            </CSSTransition> 
+            <div />
+          </SwipeableView> 
+          <ButtonWrapper>
+            <CircleButton 
+                src={'../../public/images/x_mark_red.png'}
+                onClick={() => isOnPress ? null : onPressXButton(cssTransitionIn, user, users)}
+            />
+            <CircleButton 
+                src={'../../public/images/heart_green.png'} 
+                style={{ marginLeft: 50 }} 
+                onClick={() => isOnPress ? null : onPressHeartButton(cssTransitionIn, user, users)}
+            />
+          </ButtonWrapper>
       </Wrapper>
     )
 }
