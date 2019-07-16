@@ -161,7 +161,7 @@ export const AppScreen: React.SFC<AppPropsType> = ({
             onTouchEnd={() => handleTouchEnd(user, users, cardHorizontalPosition, index)} 
             onChangeIndex={(index) => handleChangeIndex(index)}
             onTransitionEnd={() => handleTransitionEnd(index)}
-            hysteresis={1}
+            hysteresis={100}
           >  
             <div />
             <CSSTransition
