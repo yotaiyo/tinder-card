@@ -10,6 +10,7 @@ TinderのカードUIの再現。
 - webpack4
 - [react-swipeable-views](https://github.com/oliviertassinari/react-swipeable-views)
 - [react-transition-group](https://github.com/reactjs/react-transition-group)
+- [This Person Does Not Exist](https://thispersondoesnotexist.com/)
 
 ### Setup
 ```
