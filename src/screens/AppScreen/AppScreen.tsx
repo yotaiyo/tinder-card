@@ -17,7 +17,7 @@ const Wrapper = style.div`
 
 const CardWrapper = style.div`
   height: ${height - 80}px;
-  background: ${(props: { icon: string }) => props.icon ? `linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.3)), url(${props.icon})` : null};
+  background: ${(props: { icon: string }) => props.icon ? `linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.5)), url(${props.icon})` : null};
   background-size: cover;
   border-radius: 10px;
   margin-left: 5px;
@@ -52,18 +52,27 @@ const Like = style.div`
 
 const UserInfo = style.div`
   color: #fff;
-  padding-top: ${height - 130}px;
-  padding-left: 20px;
+  padding-top: ${height - 210}px;
+  width: ${width - 70}px;
+  margin-left: 20px;
 `
 
 const NickName = style.span`
-  font-size: 30px;
+  font-size: 35px;
   font-weight: bold;
 `
 
 const Age = style.span`
-  font-size: 20px;
+  font-size: 25px;
   margin-left: 10px;
+`
+
+const Description = style.div`
+  overflow: hidden;
+  height: 3.6em;
+  font-size: 16px;
+  line-height: 1.8;
+  white-space: pre-line;
 `
 
 const ButtonWrapper = style.div`
@@ -84,6 +93,7 @@ export interface UserType {
   icon: string
   nickName: string
   age: number
+  description: string
 }
 
 const LikeOrNopeSquare = ({ isFadeout, isLike, cardHorizontalPosition, isSwipe }) => {
@@ -116,21 +126,23 @@ interface FrontCardType extends UserType {
   isSwipe: boolean
 }
 
-const FrontCard = ({ icon, nickName, age, isLike, isFadeout, cardHorizontalPosition, isSwipe }: FrontCardType) => (
+const FrontCard = ({ icon, nickName, age, description, isLike, isFadeout, cardHorizontalPosition, isSwipe }: FrontCardType) => (
   <CardWrapper icon={icon} id={'card'}>
     <LikeOrNopeSquare isFadeout={isFadeout} isLike={isLike} cardHorizontalPosition={cardHorizontalPosition} isSwipe={isSwipe} />
     <UserInfo>
         <NickName>{nickName}</NickName>
         <Age>{age}</Age>
+        <Description>{description}</Description>        
     </UserInfo>
   </CardWrapper>
 )
 
-const BackCard = ({ icon, nickName, age }: UserType) => (
+const BackCard = ({ icon, nickName, age, description }: UserType) => (
   <CardWrapper icon={icon}>
     <UserInfo>
         <NickName>{nickName}</NickName>
         <Age>{age}</Age>
+        <Description>{description}</Description>
     </UserInfo>
   </CardWrapper>
 )
@@ -185,6 +197,7 @@ export const AppScreen: React.SFC<AppPropsType> = ({
                   icon={frontUser.icon} 
                   nickName={frontUser.nickName} 
                   age={frontUser.age} 
+                  description={frontUser.description}
                   isLike={isLike} 
                   isFadeout={isFadeout} 
                   cardHorizontalPosition={cardHorizontalPosition} 
@@ -197,6 +210,7 @@ export const AppScreen: React.SFC<AppPropsType> = ({
             icon={backUser.icon} 
             nickName={backUser.nickName} 
             age={backUser.age}
+            description={backUser.description}
           />
           <ButtonWrapper>
             <CircleButton 
