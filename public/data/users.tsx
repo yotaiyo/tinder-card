@@ -1,31 +1,37 @@
 const user1 = {
-    icon: '../../public/images/model_1.png',
-    nickName: 'Sophia',
-    age: 25
+    icon: '../../public/images/model_1.jpeg',
+    nickName: 'Jacob',
+    age: 42
 }
 
 const user2 = {
-    icon: '../../public/images/model_2.png',
-    nickName: '蓮',
-    age: 28
+    icon: '../../public/images/model_2.jpeg',
+    nickName: 'Jackson',
+    age: 32
 }
 
 const user3 = {
-    icon: '../../public/images/model_3.png',
-    nickName: '結月',
-    age: 28
+    icon: '../../public/images/model_3.jpeg',
+    nickName: 'Noah',
+    age: 26
 }
 
 const user4 = {
-    icon: '../../public/images/model_4.png',
-    nickName: 'Oliver',
-    age: 45
+    icon: '../../public/images/model_4.jpeg',
+    nickName: 'Sophia',
+    age: 29
 }
 
 const user5 = {
-    icon: '../../public/images/model_5.png',
-    nickName: 'さくら',
-    age: 15
+    icon: '../../public/images/model_5.jpeg',
+    nickName: 'Lucas',
+    age: 39
 }
 
-export const users = [user1, user2, user3, user4, user5]
+const user6 = {
+    icon: '../../public/images/model_6.jpeg',
+    nickName: 'Chloe',
+    age: 30
+}
+
+export const users = [user1, user2, user3, user4, user5, user6]
