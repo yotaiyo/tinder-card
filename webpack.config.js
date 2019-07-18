@@ -17,7 +17,7 @@ module.exports = {
         loader: 'awesome-typescript-loader'
       },
       {
-        test: /\.(jpg|png|gif)$/,
+        test: /\.(jpg|png|gif|jpeg)$/,
         use: [
           {
             loader: 'url-loader'

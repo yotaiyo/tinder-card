@@ -99,7 +99,7 @@ const ArrowButton = style.img`
 
 const ButtonWrapper = style.div`
   position: fixed;
-  top: ${height - 50}px;
+  top: ${height - 55}px;
   width: 100%;
   text-align: center;
 `
