@@ -8,10 +8,11 @@ export interface AppStateType {
   users: UserType[]
   isLike: boolean
   isFadeout: boolean
-  isOnPress: boolean
+  isonClick: boolean
   cardHorizontalPosition: number | null
   isSwipe: boolean
   index: number
+  showUserDetail: boolean
 }
 
 class AppScreenContainer extends React.Component<{}, AppStateType> {
@@ -22,15 +23,16 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
       users: users,
       isLike: true,
       isFadeout: false,
-      isOnPress: false,
+      isonClick: false,
       cardHorizontalPosition: null,
       isSwipe: false,
-      index: 1
+      index: 1,
+      showUserDetail: false
     }
   }
 
   render() {
-    const { cssTransitionIn, users, isLike, isFadeout, isOnPress, cardHorizontalPosition, isSwipe, index } = this.state
+    const { cssTransitionIn, users, isLike, isFadeout, isonClick, cardHorizontalPosition, isSwipe, index, showUserDetail } = this.state
     const frontUser = users[0]
     const backUser = users[1]
     const passProps = {
@@ -38,18 +40,20 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
       users,
       isLike,
       isFadeout,
-      isOnPress,
+      isonClick,
       cardHorizontalPosition,
       frontUser,
-      onPressXButton: this.onPressXButton,
-      onPressHeartButton: this.onPressHeartButton,
+      onClickXButton: this.onClickXButton,
+      onClickHeartButton: this.onClickHeartButton,
       handleTouchMove: this.handleTouchMove,
       isSwipe,
       handleTouchEnd: this.handleTouchEnd,
       index,
       handleChangeIndex: this.handleChangeIndex,
       handleTransitionEnd: this.handleTransitionEnd,
-      backUser
+      backUser,
+      showUserDetail,
+      onClickInfoButton: this.onClickInfoButton
     }
 
     return <AppScreen {...passProps} />
@@ -57,17 +61,17 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
 
   private showNextUser = (frontUser: UserType, users: UserType[]) => {
     window.setTimeout(() => {
-      this.setState({ users: users.slice(1, users.length).concat(frontUser), isFadeout: false, isOnPress: false})
+      this.setState({ users: users.slice(1, users.length).concat(frontUser), isFadeout: false, isonClick: false})
     }, 500)
   }
 
-  private onPressXButton = (cssTransitionIn: boolean, frontUser: UserType, users: UserType[]) => {
-    this.setState({ cssTransitionIn: !cssTransitionIn, isLike: false, isSwipe: false, isFadeout: true, isOnPress: true })
+  private onClickXButton = (cssTransitionIn: boolean, frontUser: UserType, users: UserType[]) => {
+    this.setState({ cssTransitionIn: !cssTransitionIn, isLike: false, isSwipe: false, isFadeout: true, isonClick: true })
     this.showNextUser(frontUser, users)
   }
 
-  private onPressHeartButton = (cssTransitionIn: boolean, frontUser: UserType, users: UserType[]) => {
-    this.setState({ cssTransitionIn: !cssTransitionIn, isLike: true, isSwipe: false, isFadeout: true, isOnPress: true })
+  private onClickHeartButton = (cssTransitionIn: boolean, frontUser: UserType, users: UserType[]) => {
+    this.setState({ cssTransitionIn: !cssTransitionIn, isLike: true, isSwipe: false, isFadeout: true, isonClick: true })
     this.showNextUser(frontUser, users)
   }
 
@@ -92,6 +96,10 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
 
   private handleTransitionEnd = (index: number) => {
     this.setState({ index: index !== 1 ? 1 : 1 })
+  }
+
+  private onClickInfoButton = () => {
+    this.setState({ showUserDetail: true })
   }
 }
 
