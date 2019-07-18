@@ -25,7 +25,7 @@ const user3 = {
 const user4 = {
     icon: '../../public/images/model_4.jpeg',
     nickName: 'Sophia',
-    description: 'アパレル関連の仕事をしています。\nディズニーランドに一緒に行ってくれる方を探しています。\n好きなものは\n映画/ケーキ。\n嫌いなものは\nトマト/朝。',
+    description: 'アパレル関連の仕事をしています。\nディズニーランドに一緒に行ってくれる方を探しています。\n好きなものは映画/ケーキ。\n嫌いなものはトマト/朝。',
     age: 29,
     distance: 12
 }

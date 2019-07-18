@@ -19,6 +19,7 @@ const CardWrapper = style.div`
   border-radius: 10px;
   margin-left: 5px;
   margin-right: 5px;
+  margin-bottom: 12px;
 `
 
 const Nope = style.div`
@@ -86,6 +87,17 @@ const InfoButton = style.img`
   margin-top: 15px;
 `
 
+const ArrowButton = style.img`
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  padding: 5px;
+  border-radius: 30px;
+  position: absolute;
+  top: ${height - 95}px;
+  left: ${2 * width - 46}px;
+`
+
 const ButtonWrapper = style.div`
   position: fixed;
   top: ${height - 50}px;
@@ -101,8 +113,10 @@ const CircleButton = style.img`
 `
 
 const UserDetailWrapper = style.div`
-  margin-top: 10px;
+  position: absolute;
+  top: ${height - 50}px;
   margin-bottom: 70px;
+  width: ${width}px;
 `
 
 const NickNameAndAgeWrapper = style.div`
@@ -116,8 +130,8 @@ const DistanceWrapper = style.div`
 `
 
 const LocationIcon = style.img`
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
 `
 
 const Distance = style.span`
@@ -170,6 +184,7 @@ interface FrontCardType extends Pick<UserType, 'icon' | 'nickName' | 'age' | 'de
   isSwipe: boolean
   showUserDetail: boolean
   onClickInfoButton: () => void
+  onClickArrowButton: () => void
 }
 
 const FrontCard = ({ 
@@ -182,7 +197,8 @@ const FrontCard = ({
   cardHorizontalPosition, 
   isSwipe, 
   showUserDetail, 
-  onClickInfoButton 
+  onClickInfoButton,
+  onClickArrowButton
 }: FrontCardType) => (
   <CardWrapper icon={icon} id={'card'}>
     <LikeOrNopeSquare isFadeout={isFadeout} isLike={isLike} cardHorizontalPosition={cardHorizontalPosition} isSwipe={isSwipe} />
@@ -195,6 +211,9 @@ const FrontCard = ({
             <InfoButton src={'../../public/images/info.png'} onClick={onClickInfoButton}/>
           </DescriptionAndInfoButtonWrapper>
         </UserInfo>
+      }
+      {showUserDetail &&
+        <ArrowButton src={'../../public/images/arrow.png'} onClick={onClickArrowButton} />
       }
   </CardWrapper>
 )
@@ -233,6 +252,7 @@ interface AppPropsType extends AppStateType {
   handleTransitionEnd: (index: number) => void
   backUser: UserType
   onClickInfoButton: () => void
+  onClickArrowButton: () => void
 }
 
 export const AppScreen: React.SFC<AppPropsType> = ({
@@ -240,7 +260,7 @@ export const AppScreen: React.SFC<AppPropsType> = ({
   users,
   isLike,
   isFadeout,
-  isonClick,
+  isOnClick,
   cardHorizontalPosition,
   frontUser,
   onClickXButton,
@@ -253,18 +273,20 @@ export const AppScreen: React.SFC<AppPropsType> = ({
   handleTransitionEnd,
   backUser,
   showUserDetail,
-  onClickInfoButton
+  onClickInfoButton,
+  onClickArrowButton
 }) => {
     return (
         <Wrapper>
           <SwipeableView 
             index={index}
-            onTouchMove={() => handleTouchMove()} 
+            onTouchMove={handleTouchMove} 
             onTouchEnd={() => handleTouchEnd(frontUser, users, cardHorizontalPosition, index)} 
             onChangeIndex={(index) => handleChangeIndex(index)}
             onTransitionEnd={() => handleTransitionEnd(index)}
             hysteresis={100}
             style={{ position: 'absolute', left: 0, right: 0, margin: 'auto' }}
+            disabled={showUserDetail}
           >  
             <div />
             <CSSTransition
@@ -283,16 +305,19 @@ export const AppScreen: React.SFC<AppPropsType> = ({
                 isSwipe={isSwipe}
                 showUserDetail={showUserDetail}
                 onClickInfoButton={onClickInfoButton}
+                onClickArrowButton={onClickArrowButton}
               />
             </CSSTransition> 
             <div />
           </SwipeableView> 
-          <BackCard 
-            icon={backUser.icon} 
-            nickName={backUser.nickName} 
-            age={backUser.age}
-            description={backUser.description}
-          />
+          { !showUserDetail &&
+            <BackCard 
+              icon={backUser.icon} 
+              nickName={backUser.nickName} 
+              age={backUser.age}
+              description={backUser.description}
+            />
+          }
           { showUserDetail &&
             <UserDetail 
               nickName={frontUser.nickName} 
@@ -304,12 +329,12 @@ export const AppScreen: React.SFC<AppPropsType> = ({
           <ButtonWrapper>
             <CircleButton 
                 src={'../../public/images/x_mark_red.png'}
-                onClick={() => isonClick ? null : onClickXButton(cssTransitionIn, frontUser, users)}
+                onClick={() => isOnClick ? null : onClickXButton(cssTransitionIn, frontUser, users)}
             />
             <CircleButton 
                 src={'../../public/images/heart_green.png'} 
                 style={{ marginLeft: 50 }} 
-                onClick={() => isonClick ? null : onClickHeartButton(cssTransitionIn, frontUser, users)}
+                onClick={() => isOnClick ? null : onClickHeartButton(cssTransitionIn, frontUser, users)}
             />
           </ButtonWrapper>
       </Wrapper>
