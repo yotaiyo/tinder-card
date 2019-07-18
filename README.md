@@ -1,4 +1,4 @@
-# yotaiyo-tinder-card-react
+# yotaiyo-tinder-card
 
 ### OverView
 TinderのカードUIの再現。  
@@ -14,8 +14,8 @@ TinderのカードUIの再現。
 
 ### Setup
 ```
-git clone git@github.com:yotaiyo/yotaiyo-tinder-card-react.git
-cd yotaiyo-tinder-card-react
+git clone git@github.com:yotaiyo/yotaiyo-tinder-card.git
+cd yotaiyo-tinder-card
 yarn
 yarn start
 ```
