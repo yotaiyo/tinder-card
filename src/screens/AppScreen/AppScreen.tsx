@@ -53,7 +53,7 @@ const Like = style.div`
 const UserInfo = style.div`
   color: #fff;
   padding-top: ${height - 210}px;
-  width: ${width - 70}px;
+  width: ${width - 50}px;
   margin-left: 20px;
 `
 
@@ -67,12 +67,26 @@ const Age = style.span`
   margin-left: 10px;
 `
 
+const DescriptionAndInfoButtonWrapper = style.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
+
 const Description = style.div`
   overflow: hidden;
   height: 3.6em;
   font-size: 16px;
   line-height: 1.8;
   white-space: pre-line;
+`
+
+const InfoButton = style.img`
+  width: 18px;
+  height: 18px;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-top: 15px;
 `
 
 const ButtonWrapper = style.div`
@@ -129,11 +143,14 @@ interface FrontCardType extends UserType {
 const FrontCard = ({ icon, nickName, age, description, isLike, isFadeout, cardHorizontalPosition, isSwipe }: FrontCardType) => (
   <CardWrapper icon={icon} id={'card'}>
     <LikeOrNopeSquare isFadeout={isFadeout} isLike={isLike} cardHorizontalPosition={cardHorizontalPosition} isSwipe={isSwipe} />
-    <UserInfo>
+      <UserInfo>
         <NickName>{nickName}</NickName>
         <Age>{age}</Age>
-        <Description>{description}</Description>        
-    </UserInfo>
+        <DescriptionAndInfoButtonWrapper>
+          <Description>{description}</Description>
+          <InfoButton src={'../../public/images/info.png'} />
+        </DescriptionAndInfoButtonWrapper>
+      </UserInfo>
   </CardWrapper>
 )
 
