@@ -208,12 +208,12 @@ const FrontCard = ({
           <Age>{age}</Age>
           <DescriptionAndInfoButtonWrapper>
             <TwoLinesDescription>{description}</TwoLinesDescription>
-            <InfoButton src={'../../public/images/info.png'} onClick={onClickInfoButton}/>
+            <InfoButton src={'src/images/info.png'} onClick={onClickInfoButton}/>
           </DescriptionAndInfoButtonWrapper>
         </UserInfo>
       }
       {showUserDetail &&
-        <ArrowButton src={'../../public/images/arrow.png'} onClick={onClickArrowButton} />
+        <ArrowButton src={'src/images/arrow.png'} onClick={onClickArrowButton} />
       }
   </CardWrapper>
 )
@@ -235,7 +235,7 @@ const UserDetail = ({ nickName, age, description, distance }: Pick<UserType, 'ni
       <Age>{age}</Age>
     </NickNameAndAgeWrapper>
     <DistanceWrapper>
-      <LocationIcon src='../../public/images/location.png'/>
+      <LocationIcon src='src/images/location.png'/>
       <Distance>{`${distance} km 先`}</Distance>
     </DistanceWrapper>
     <Description>{description}</Description>
@@ -328,11 +328,11 @@ export const AppScreen: React.SFC<AppPropsType> = ({
           }
           <ButtonWrapper>
             <CircleButton 
-                src={'../../public/images/x_mark_red.png'}
+                src={'src/images/x_mark_red.png'}
                 onClick={() => isOnClick ? null : onClickXButton(cssTransitionIn, frontUser, users)}
             />
             <CircleButton 
-                src={'../../public/images/heart_green.png'} 
+                src={'src/images/heart_green.png'} 
                 style={{ marginLeft: 50 }} 
                 onClick={() => isOnClick ? null : onClickHeartButton(cssTransitionIn, frontUser, users)}
             />

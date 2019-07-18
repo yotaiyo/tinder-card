@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { users } from '../../../public/data/users'
+import { users } from '../../data/users'
 import './fadeout.css'
 import { AppScreen, UserType } from './AppScreen'
 import { animateScroll as scroll } from 'react-scroll'
