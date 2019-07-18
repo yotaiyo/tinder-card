@@ -2,6 +2,7 @@ import * as React from 'react'
 import { users } from '../../../public/data/users'
 import './fadeout.css'
 import { AppScreen, UserType } from './AppScreen'
+import { animateScroll as scroll } from 'react-scroll'
 
 export interface AppStateType {
   cssTransitionIn: boolean
@@ -61,12 +62,12 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
 
   private showNextUser = (frontUser: UserType, users: UserType[]) => {
     window.setTimeout(() => {
-      this.setState({ users: users.slice(1, users.length).concat(frontUser), isFadeout: false, isOnClick: false})
+      this.setState({ users: users.slice(1, users.length).concat(frontUser), isFadeout: false, isOnClick: false, showUserDetail: false })
     }, 500)
   }
 
   private onClickXButton = (cssTransitionIn: boolean, frontUser: UserType, users: UserType[]) => {
-    this.setState({ cssTransitionIn: !cssTransitionIn, isLike: false, isSwipe: false, isFadeout: true, isOnClick: true, showUserDetail: false })
+    this.setState({ cssTransitionIn: !cssTransitionIn, isLike: false, isSwipe: false, isFadeout: true, isOnClick: true })
     this.showNextUser(frontUser, users)
   }
 
@@ -100,6 +101,7 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
 
   private onClickInfoButton = () => {
     this.setState({ showUserDetail: true })
+    scroll.scrollTo(50, { duration: 300 })
   }
 
   private onClickArrowButton = () => {
