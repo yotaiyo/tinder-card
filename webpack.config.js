@@ -17,18 +17,11 @@ module.exports = {
         loader: 'awesome-typescript-loader'
       },
       {
-        test: /\.(jpg|png|gif)$/,
+        test: /\.(jpg|png|gif|jpeg)$/,
         use: [
-            {
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]',
-                    outputPath : 'images/',
-                    publicPath : function(path){
-                        return '../' + path;
-                    }
-                }
-            }
+          {
+            loader: 'url-loader'
+          }
         ]
       },
       {

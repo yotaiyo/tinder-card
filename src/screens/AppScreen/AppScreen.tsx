@@ -14,7 +14,6 @@ const Wrapper = style.div`
 
 const CardWrapper = style.div`
   height: ${height - 80}px;
-  background: ${(props: { icon: string }) => props.icon ? `linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.5)), url(${props.icon})` : null};
   background-size: cover;
   border-radius: 10px;
   margin-left: 5px;
@@ -100,7 +99,7 @@ const ArrowButton = style.img`
 
 const ButtonWrapper = style.div`
   position: fixed;
-  top: ${height - 50}px;
+  top: ${height - 55}px;
   width: 100%;
   text-align: center;
 `
@@ -199,27 +198,29 @@ const FrontCard = ({
   showUserDetail, 
   onClickInfoButton,
   onClickArrowButton
-}: FrontCardType) => (
-  <CardWrapper icon={icon} id={'card'}>
-    <LikeOrNopeSquare isFadeout={isFadeout} isLike={isLike} cardHorizontalPosition={cardHorizontalPosition} isSwipe={isSwipe} />
-      { !showUserDetail &&
-        <UserInfo>
-          <NickName>{nickName}</NickName>
-          <Age>{age}</Age>
-          <DescriptionAndInfoButtonWrapper>
-            <TwoLinesDescription>{description}</TwoLinesDescription>
-            <InfoButton src={'../../public/images/info.png'} onClick={onClickInfoButton}/>
-          </DescriptionAndInfoButtonWrapper>
-        </UserInfo>
-      }
-      {showUserDetail &&
-        <ArrowButton src={'../../public/images/arrow.png'} onClick={onClickArrowButton} />
-      }
-  </CardWrapper>
-)
+}: FrontCardType) => {
+  return (
+    <CardWrapper style={{ background: `linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.5)), url(${icon})` }} id='card'>
+      <LikeOrNopeSquare isFadeout={isFadeout} isLike={isLike} cardHorizontalPosition={cardHorizontalPosition} isSwipe={isSwipe} />
+        { !showUserDetail &&
+          <UserInfo>
+            <NickName>{nickName}</NickName>
+            <Age>{age}</Age>
+            <DescriptionAndInfoButtonWrapper>
+              <TwoLinesDescription>{description}</TwoLinesDescription>
+              <InfoButton src={require('../../images/info.png')} onClick={onClickInfoButton}/>
+            </DescriptionAndInfoButtonWrapper>
+          </UserInfo>
+        }
+        {showUserDetail &&
+          <ArrowButton src={require('../../images/arrow.png')} onClick={onClickArrowButton} />
+        }
+    </CardWrapper>
+  )
+}
 
 const BackCard = ({ icon, nickName, age, description }: Pick<UserType, 'icon' | 'nickName' | 'age' | 'description'>) => (
-  <CardWrapper icon={icon}>
+  <CardWrapper style={{ background: `linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.5)), url(${icon})` }}>
     <UserInfo>
         <NickName>{nickName}</NickName>
         <Age>{age}</Age>
@@ -235,7 +236,7 @@ const UserDetail = ({ nickName, age, description, distance }: Pick<UserType, 'ni
       <Age>{age}</Age>
     </NickNameAndAgeWrapper>
     <DistanceWrapper>
-      <LocationIcon src='../../public/images/location.png'/>
+      <LocationIcon src={require('../../images/location.png')} />
       <Distance>{`${distance} km 先`}</Distance>
     </DistanceWrapper>
     <Description>{description}</Description>
@@ -328,11 +329,11 @@ export const AppScreen: React.SFC<AppPropsType> = ({
           }
           <ButtonWrapper>
             <CircleButton 
-                src={'../../public/images/x_mark_red.png'}
+                src={require('../../images/x_mark_red.png')}
                 onClick={() => isOnClick ? null : onClickXButton(cssTransitionIn, frontUser, users)}
             />
             <CircleButton 
-                src={'../../public/images/heart_green.png'} 
+                src={require('../../images/heart_green.png')} 
                 style={{ marginLeft: 50 }} 
                 onClick={() => isOnClick ? null : onClickHeartButton(cssTransitionIn, frontUser, users)}
             />
