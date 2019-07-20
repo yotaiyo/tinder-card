@@ -114,7 +114,7 @@ const CircleButton = style.img`
 const UserDetailWrapper = style.div`
   position: absolute;
   top: ${height - 50}px;
-  margin-bottom: 70px;
+  padding-bottom: 70px;
   width: ${width}px;
 `
 
@@ -224,7 +224,10 @@ const BackCard = ({ icon, nickName, age, description }: Pick<UserType, 'icon' | 
     <UserInfo>
         <NickName>{nickName}</NickName>
         <Age>{age}</Age>
-        <TwoLinesDescription>{description}</TwoLinesDescription>
+        <DescriptionAndInfoButtonWrapper>
+          <TwoLinesDescription>{description}</TwoLinesDescription>
+          <InfoButton src={require('../../images/info.png')} />
+        </DescriptionAndInfoButtonWrapper>
     </UserInfo>
   </CardWrapper>
 )
