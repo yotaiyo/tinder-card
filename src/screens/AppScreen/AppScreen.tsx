@@ -14,6 +14,7 @@ const Wrapper = style.div`
 
 const CardWrapper = style.div`
   height: ${height - 80}px;
+  width: ${width - 10}px;
   background-size: cover;
   border-radius: 10px;
   margin-left: 5px;
@@ -24,27 +25,32 @@ const CardWrapper = style.div`
 const Nope = style.div`
   font-size: 40px;
   font-weight: bold;
-  top: 50px;
-  right: 40px;
   color: red;
   transform: rotate(20deg);
-  position: absolute;
   border: solid 3px red;
   padding-left: 5px;
   padding-right: 5px;
+  width: 120px;
+  text-align: center;
+  float: right;
+  margin-top: 50px;
+  margin-right: 30px;
 `
 
 const Like = style.div`
   font-size: 40px;
   font-weight: bold;
-  top: 50px;
-  left: 40px;
+  top: 100px;
   color: green;
   transform: rotate(-20deg);
-  position: absolute;
   border: solid 3px green;
   padding-left: 5px;
   padding-right: 5px;
+  width: 150px;
+  text-align: center;
+  float: left;
+  margin-top: 50px;
+  margin-left: 30px;
 `
 
 const UserInfo = style.div`
@@ -220,14 +226,14 @@ const FrontCard = ({
 }
 
 const BackCard = ({ icon, nickName, age, description }: Pick<UserType, 'icon' | 'nickName' | 'age' | 'description'>) => (
-  <CardWrapper style={{ background: `linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.5)), url(${icon})` }}>
+  <CardWrapper style={{ background: `linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.5)), url(${icon})`, position: 'absolute', left: 0, right: 0, margin: 'auto' }}>
     <UserInfo>
-        <NickName>{nickName}</NickName>
-        <Age>{age}</Age>
-        <DescriptionAndInfoButtonWrapper>
-          <TwoLinesDescription>{description}</TwoLinesDescription>
-          <InfoButton src={require('../../images/info.png')} />
-        </DescriptionAndInfoButtonWrapper>
+      <NickName>{nickName}</NickName>
+      <Age>{age}</Age>
+      <DescriptionAndInfoButtonWrapper>
+        <TwoLinesDescription>{description}</TwoLinesDescription>
+        <InfoButton src={require('../../images/info.png')} />
+      </DescriptionAndInfoButtonWrapper>
     </UserInfo>
   </CardWrapper>
 )
@@ -251,9 +257,9 @@ interface AppPropsType extends AppStateType {
   onClickXButton: (cssTransitionIn: boolean, frontUser: UserType, users: UserType[]) => void
   onClickHeartButton: (cssTransitionIn: boolean, frontUser: UserType, users: UserType[]) => void
   handleTouchMove: () => void
-  handleTouchEnd: (frontUser: UserType, users: UserType[], cardHorizontalPosition: number | null, index: number) => void
+  handleTouchEnd: (cssTransitionIn: boolean, cardHorizontalPosition: number) => void
   handleChangeIndex: (index: number) => void
-  handleTransitionEnd: (index: number) => void
+  handleTransitionEnd: (frontUser: UserType, users: UserType[], cardHorizontalPosition: number | null, index: number) => void
   backUser: UserType
   onClickInfoButton: () => void
   onClickArrowButton: () => void
@@ -282,23 +288,28 @@ export const AppScreen: React.SFC<AppPropsType> = ({
 }) => {
     return (
         <Wrapper>
-          <SwipeableView 
-            index={index}
-            onTouchMove={handleTouchMove} 
-            onTouchEnd={() => handleTouchEnd(frontUser, users, cardHorizontalPosition, index)} 
-            onChangeIndex={(index) => handleChangeIndex(index)}
-            onTransitionEnd={() => handleTransitionEnd(index)}
-            hysteresis={1}
-            threshold={10000000}
-            style={{ position: 'absolute', left: 0, right: 0, margin: 'auto' }}
-            disabled={showUserDetail}
-          >  
-            <div />
-            <CSSTransition
+          <BackCard 
+            icon={backUser.icon} 
+            nickName={backUser.nickName} 
+            age={backUser.age}
+            description={backUser.description}
+          />
+          <CSSTransition
               in={cssTransitionIn}
               classNames={isLike ? 'like' : 'nope'}
               timeout={500}
-            >
+          >
+            <SwipeableView 
+              index={index}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={() => handleTouchEnd(cssTransitionIn, cardHorizontalPosition)}
+              onChangeIndex={(index) => handleChangeIndex(index)}
+              onTransitionEnd={() => handleTransitionEnd(frontUser, users, cardHorizontalPosition, index)}
+              hysteresis={1}
+              threshold={10000000}
+              disabled={showUserDetail}
+            >  
+              <div />
               <FrontCard 
                 icon={frontUser.icon} 
                 nickName={frontUser.nickName} 
@@ -312,17 +323,9 @@ export const AppScreen: React.SFC<AppPropsType> = ({
                 onClickInfoButton={onClickInfoButton}
                 onClickArrowButton={onClickArrowButton}
               />
-            </CSSTransition> 
-            <div />
-          </SwipeableView> 
-          { !showUserDetail &&
-            <BackCard 
-              icon={backUser.icon} 
-              nickName={backUser.nickName} 
-              age={backUser.age}
-              description={backUser.description}
-            />
-          }
+              <div />
+            </SwipeableView> 
+          </CSSTransition>
           { showUserDetail &&
             <UserDetail 
               nickName={frontUser.nickName} 
