@@ -251,9 +251,9 @@ interface AppPropsType extends AppStateType {
   onClickXButton: (cssTransitionIn: boolean, frontUser: UserType, users: UserType[]) => void
   onClickHeartButton: (cssTransitionIn: boolean, frontUser: UserType, users: UserType[]) => void
   handleTouchMove: () => void
-  handleTouchEnd: (frontUser: UserType, users: UserType[], cardHorizontalPosition: number | null, index: number) => void
+  handleTouchEnd: (cssTransitionIn: boolean, cardHorizontalPosition: number) => void
   handleChangeIndex: (index: number) => void
-  handleTransitionEnd: (index: number) => void
+  handleTransitionEnd: (frontUser: UserType, users: UserType[], cardHorizontalPosition: number | null, index: number) => void
   backUser: UserType
   onClickInfoButton: () => void
   onClickArrowButton: () => void
@@ -282,23 +282,23 @@ export const AppScreen: React.SFC<AppPropsType> = ({
 }) => {
     return (
         <Wrapper>
-          <SwipeableView 
-            index={index}
-            onTouchMove={handleTouchMove} 
-            onTouchEnd={() => handleTouchEnd(frontUser, users, cardHorizontalPosition, index)} 
-            onChangeIndex={(index) => handleChangeIndex(index)}
-            onTransitionEnd={() => handleTransitionEnd(index)}
-            hysteresis={1}
-            threshold={10000000}
-            style={{ position: 'absolute', left: 0, right: 0, margin: 'auto' }}
-            disabled={showUserDetail}
-          >  
-            <div />
-            <CSSTransition
+          <CSSTransition
               in={cssTransitionIn}
               classNames={isLike ? 'like' : 'nope'}
               timeout={500}
-            >
+              style={{ position: 'absolute', left: 0, right: 0, margin: 'auto' }}
+          >
+            <SwipeableView 
+              index={index}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={() => handleTouchEnd(cssTransitionIn, cardHorizontalPosition)}
+              onChangeIndex={(index) => handleChangeIndex(index)}
+              onTransitionEnd={() => handleTransitionEnd(frontUser, users, cardHorizontalPosition, index)}
+              hysteresis={1}
+              threshold={10000000}
+              disabled={showUserDetail}
+            >  
+              <div />
               <FrontCard 
                 icon={frontUser.icon} 
                 nickName={frontUser.nickName} 
@@ -312,9 +312,9 @@ export const AppScreen: React.SFC<AppPropsType> = ({
                 onClickInfoButton={onClickInfoButton}
                 onClickArrowButton={onClickArrowButton}
               />
-            </CSSTransition> 
-            <div />
-          </SwipeableView> 
+              <div />
+            </SwipeableView> 
+          </CSSTransition>
           { !showUserDetail &&
             <BackCard 
               icon={backUser.icon} 

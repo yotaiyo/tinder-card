@@ -83,11 +83,11 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
     this.setState({ isSwipe: true, cardHorizontalPosition: left })
   }
 
-  private handleTouchEnd = (frontUser: UserType, users: UserType[], cardHorizontalPosition: number | null, index: number) => {
-    this.setState({ isSwipe: false  })
-    this.setState({ index: index !== 1 ? 1 : 1 })
-    if (cardHorizontalPosition > 50 || cardHorizontalPosition < -50 ) {
-      this.setState({ cardHorizontalPosition: 5, users: users.slice(1, users.length).concat(frontUser) })
+  private handleTouchEnd = (cssTransitionIn: boolean, cardHorizontalPosition: number) => {
+    if (cardHorizontalPosition > 50 ) {
+      this.setState({ cssTransitionIn: !cssTransitionIn, isLike: true, isSwipe: false, isFadeout: true })
+    } else if (cardHorizontalPosition < -50) {
+      this.setState({ cssTransitionIn: !cssTransitionIn, isLike: false, isSwipe: false, isFadeout: true })
     }
   }
 
@@ -95,8 +95,11 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
     this.setState({ index: index  })
   }
 
-  private handleTransitionEnd = (index: number) => {
-    this.setState({ index: index !== 1 ? 1 : 1 })
+  private handleTransitionEnd = (frontUser: UserType, users: UserType[], cardHorizontalPosition: number | null, index: number) => {
+    this.setState({ isSwipe: false, index: index !== 1 ? 1 : 1 })
+    if (cardHorizontalPosition > 50 || cardHorizontalPosition < -50 ) {
+      this.setState({ cardHorizontalPosition: 5, users: users.slice(1, users.length).concat(frontUser) })
+    }
   }
 
   private onClickInfoButton = () => {
