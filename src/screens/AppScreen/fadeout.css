@@ -1,17 +1,21 @@
 .nope-enter-active {
-    transform: translateX(-400%) skew(90deg, -90deg);
-    transition-duration: 1.2s;
+    transform: translate(-500%, 0) rotate(-150deg);
+    -webkit-transform: translate(-500%, 0) rotate(-150deg);
+    transition-duration: 2s;
 }
 .nope-exit-active {
-    transform: translateX(-400%) skew(90deg, -90deg);
-    transition-duration: 1.2s;
+    transform: translate(-500%, 0) rotate(-150deg);
+    -webkit-transform: translate(-500%, 0) rotate(-150deg);
+    transition-duration: 2s;
 }
 
 .like-enter-active {
-    transform: translateX(400%) skew(-90deg, 90deg);
-    transition-duration: 1.2s;
+    transform: translate(500%, 0) rotate(150deg);
+    -webkit-transform: translate(500%, 0) rotate(150deg);
+    transition-duration: 2s;
 }
 .like-exit-active {
-    transform: translateX(400%) skew(-90deg, 90deg);
-    transition-duration: 1.2s;
+    transform: translate(500%, 0) rotate(150deg);
+    -webkit-transform: translate(500%, 0) rotate(150deg);
+    transition-duration: 2s;
 }
