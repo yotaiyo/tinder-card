@@ -96,7 +96,7 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
   }
 
   private handleTransitionEnd = (frontUser: UserType, users: UserType[], cardHorizontalPosition: number | null, index: number) => {
-    this.setState({ isSwipe: false, index: index !== 1 ? 1 : 1 })
+    this.setState({ isFadeout: false, index: index !== 1 ? 1 : 1 })
     if (cardHorizontalPosition > 50 || cardHorizontalPosition < -50 ) {
       this.setState({ cardHorizontalPosition: 5, users: users.slice(1, users.length).concat(frontUser) })
     }
