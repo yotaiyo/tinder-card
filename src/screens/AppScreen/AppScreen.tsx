@@ -288,7 +288,8 @@ export const AppScreen: React.SFC<AppPropsType> = ({
             onTouchEnd={() => handleTouchEnd(frontUser, users, cardHorizontalPosition, index)} 
             onChangeIndex={(index) => handleChangeIndex(index)}
             onTransitionEnd={() => handleTransitionEnd(index)}
-            hysteresis={100}
+            hysteresis={1}
+            threshold={10000000}
             style={{ position: 'absolute', left: 0, right: 0, margin: 'auto' }}
             disabled={showUserDetail}
           >  
