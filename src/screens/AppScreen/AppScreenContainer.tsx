@@ -105,7 +105,7 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
     cssTransitionIn: boolean,
     cardHorizontalPosition: number
   ) => {
-    if (cardHorizontalPosition > 50) {
+    if (cardHorizontalPosition > 55) {
       this.setState({
         cssTransitionIn: !cssTransitionIn,
         cssTransitionClassNames: 'right',
@@ -136,7 +136,7 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
     this.setState({ isFadeout: false });
     // もしカードのindexが1からズレた場合、元に戻す。
     this.setState({ index: index !== 1 ? 1 : 1 });
-    if (cardHorizontalPosition > 50 || cardHorizontalPosition < -50) {
+    if (cardHorizontalPosition > 55 || cardHorizontalPosition < -50) {
       this.setState({
         cardHorizontalPosition: 5,
         users: users.slice(1, users.length).concat(frontUser),

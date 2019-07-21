@@ -49,7 +49,7 @@ export const LikeOrNopeSquare = ({
           <Nope>Nope</Nope>
         )
       ) : null}
-      {!isFadeout && isSwipe && cardHorizontalPosition > 50 ? (
+      {!isFadeout && isSwipe && cardHorizontalPosition > 55 ? (
         <Like style={{ left: width + 40 }}>Like</Like>
       ) : null}
       {!isFadeout && isSwipe && cardHorizontalPosition < -50 ? (
