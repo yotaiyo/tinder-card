@@ -7,7 +7,7 @@ import { animateScroll as scroll } from 'react-scroll'
 export interface AppStateType {
   cssTransitionIn: boolean
   users: UserType[]
-  isLike: boolean
+  cssTransitionClassNames: 'right' | 'left' | 'doNothing'
   isFadeout: boolean
   isOnClick: boolean
   cardHorizontalPosition: number | null
@@ -22,7 +22,7 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
     this.state={
       cssTransitionIn: true,
       users: users,
-      isLike: true,
+      cssTransitionClassNames: 'right',
       isFadeout: false,
       isOnClick: false,
       cardHorizontalPosition: null,
@@ -33,11 +33,11 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
   }
 
   render() {
-    const { cssTransitionIn, users, isLike, isFadeout, isOnClick, cardHorizontalPosition, isSwipe, index, showUserDetail } = this.state
+    const { cssTransitionIn, users, cssTransitionClassNames, isFadeout, isOnClick, cardHorizontalPosition, isSwipe, index, showUserDetail } = this.state
     const passProps = {
       cssTransitionIn,
       users,
-      isLike,
+      cssTransitionClassNames,
       isFadeout,
       isOnClick,
       cardHorizontalPosition,
@@ -58,20 +58,18 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
     return <AppScreen {...passProps} />
   }
 
-  private showNextUser = (frontUser: UserType, users: UserType[]) => {
-    window.setTimeout(() => {
-      this.setState({ users: users.slice(1, users.length).concat(frontUser), isFadeout: false, isOnClick: false, showUserDetail: false })
-    }, 500)
-  }
-
   private onClickXButton = (cssTransitionIn: boolean, frontUser: UserType, users: UserType[]) => {
-    this.setState({ cssTransitionIn: !cssTransitionIn, isLike: false, isSwipe: false, isFadeout: true, isOnClick: true })
-    this.showNextUser(frontUser, users)
+    this.setState({ cssTransitionIn: !cssTransitionIn, cssTransitionClassNames: 'left', isSwipe: false, isFadeout: true, isOnClick: true })
+    window.setTimeout(() => {
+      this.setState({ users: users.slice(1, users.length).concat(frontUser), isFadeout: false, isOnClick: false, showUserDetail: false, cssTransitionIn: !!cssTransitionIn, cssTransitionClassNames: 'doNothing' })
+    }, 300)
   }
 
   private onClickHeartButton = (cssTransitionIn: boolean, frontUser: UserType, users: UserType[]) => {
-    this.setState({ cssTransitionIn: !cssTransitionIn, isLike: true, isSwipe: false, isFadeout: true, isOnClick: true })
-    this.showNextUser(frontUser, users)
+    this.setState({ cssTransitionIn: !cssTransitionIn, cssTransitionClassNames: 'right', isSwipe: false, isFadeout: true, isOnClick: true })
+    window.setTimeout(() => {
+      this.setState({ users: users.slice(1, users.length).concat(frontUser), isFadeout: false, isOnClick: false, showUserDetail: false, cssTransitionIn: !!cssTransitionIn, cssTransitionClassNames: 'doNothing' })
+    }, 300)
   }
 
   private handleTouchMove = () => {
@@ -83,9 +81,9 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
 
   private handleTouchEnd = (cssTransitionIn: boolean, cardHorizontalPosition: number) => {
     if (cardHorizontalPosition > 50 ) {
-      this.setState({ cssTransitionIn: !cssTransitionIn, isLike: true, isSwipe: false, isFadeout: true })
+      this.setState({ cssTransitionIn: !cssTransitionIn, cssTransitionClassNames: 'right', isSwipe: false, isFadeout: true })
     } else if (cardHorizontalPosition < -50) {
-      this.setState({ cssTransitionIn: !cssTransitionIn, isLike: false, isSwipe: false, isFadeout: true })
+      this.setState({ cssTransitionIn: !cssTransitionIn, cssTransitionClassNames: 'left', isSwipe: false, isFadeout: true })
     }
   }
 
@@ -93,10 +91,10 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
     this.setState({ index: index  })
   }
 
-  private handleTransitionEnd = (frontUser: UserType, users: UserType[], cardHorizontalPosition: number | null, index: number) => {
+  private handleTransitionEnd = (cssTransitionIn: boolean, frontUser: UserType, users: UserType[], cardHorizontalPosition: number | null, index: number) => {
     this.setState({ isFadeout: false, index: index !== 1 ? 1 : 1 })
     if (cardHorizontalPosition > 50 || cardHorizontalPosition < -50 ) {
-      this.setState({ cardHorizontalPosition: 5, users: users.slice(1, users.length).concat(frontUser) })
+      this.setState({ cardHorizontalPosition: 5, users: users.slice(1, users.length).concat(frontUser), cssTransitionIn: !cssTransitionIn, cssTransitionClassNames: 'doNothing' })
     }
   }
 

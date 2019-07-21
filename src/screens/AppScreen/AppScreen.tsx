@@ -159,11 +159,11 @@ export interface UserType {
   distance: number
 }
 
-const LikeOrNopeSquare = ({ isFadeout, isLike, cardHorizontalPosition, isSwipe }) => {
+const LikeOrNopeSquare = ({ isFadeout, cssTransitionClassNames, cardHorizontalPosition, isSwipe }) => {
   return(
     <>
       {isFadeout && !isSwipe ? 
-        isLike ? 
+        cssTransitionClassNames == 'right' ? 
           <Like>Like</Like>
           : <Nope>Nope</Nope>
       : null
@@ -183,7 +183,7 @@ const LikeOrNopeSquare = ({ isFadeout, isLike, cardHorizontalPosition, isSwipe }
 }
 
 interface FrontCardType extends Pick<UserType, 'icon' | 'nickName' | 'age' | 'description'> {
-  isLike: boolean
+  cssTransitionClassNames: 'right' | 'left' | 'doNothing'
   isFadeout: boolean
   cardHorizontalPosition: number | null
   isSwipe: boolean
@@ -197,7 +197,7 @@ const FrontCard = ({
   nickName, 
   age, 
   description, 
-  isLike, 
+  cssTransitionClassNames, 
   isFadeout, 
   cardHorizontalPosition, 
   isSwipe, 
@@ -207,7 +207,7 @@ const FrontCard = ({
 }: FrontCardType) => {
   return (
     <CardWrapper style={{ background: `linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.5)), url(${icon})` }} id='card'>
-      <LikeOrNopeSquare isFadeout={isFadeout} isLike={isLike} cardHorizontalPosition={cardHorizontalPosition} isSwipe={isSwipe} />
+      <LikeOrNopeSquare isFadeout={isFadeout} cssTransitionClassNames={cssTransitionClassNames} cardHorizontalPosition={cardHorizontalPosition} isSwipe={isSwipe} />
         { !showUserDetail &&
           <UserInfo>
             <NickName>{nickName}</NickName>
@@ -259,7 +259,7 @@ interface AppPropsType extends AppStateType {
   handleTouchMove: () => void
   handleTouchEnd: (cssTransitionIn: boolean, cardHorizontalPosition: number) => void
   handleChangeIndex: (index: number) => void
-  handleTransitionEnd: (frontUser: UserType, users: UserType[], cardHorizontalPosition: number | null, index: number) => void
+  handleTransitionEnd: (cssTransitionIn: boolean, frontUser: UserType, users: UserType[], cardHorizontalPosition: number | null, index: number) => void
   backUser: UserType
   onClickInfoButton: () => void
   onClickArrowButton: () => void
@@ -268,7 +268,7 @@ interface AppPropsType extends AppStateType {
 export const AppScreen: React.SFC<AppPropsType> = ({
   cssTransitionIn,
   users,
-  isLike,
+  cssTransitionClassNames,
   isFadeout,
   isOnClick,
   cardHorizontalPosition,
@@ -298,7 +298,7 @@ export const AppScreen: React.SFC<AppPropsType> = ({
           }
           <CSSTransition
               in={cssTransitionIn}
-              classNames={isLike ? 'like' : 'nope'}
+              classNames={cssTransitionClassNames}
               timeout={500}
           >
             <SwipeableView 
@@ -306,7 +306,7 @@ export const AppScreen: React.SFC<AppPropsType> = ({
               onTouchMove={handleTouchMove}
               onTouchEnd={() => handleTouchEnd(cssTransitionIn, cardHorizontalPosition)}
               onChangeIndex={(index) => handleChangeIndex(index)}
-              onTransitionEnd={() => handleTransitionEnd(frontUser, users, cardHorizontalPosition, index)}
+              onTransitionEnd={() => handleTransitionEnd(cssTransitionIn, frontUser, users, cardHorizontalPosition, index)}
               hysteresis={1}
               threshold={10000000}
               disabled={showUserDetail}
@@ -317,7 +317,7 @@ export const AppScreen: React.SFC<AppPropsType> = ({
                 nickName={frontUser.nickName} 
                 age={frontUser.age} 
                 description={frontUser.description}
-                isLike={isLike} 
+                cssTransitionClassNames={cssTransitionClassNames} 
                 isFadeout={isFadeout} 
                 cardHorizontalPosition={cardHorizontalPosition} 
                 isSwipe={isSwipe}
