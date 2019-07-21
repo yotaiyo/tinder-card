@@ -10,7 +10,8 @@ export interface AppStateType {
   // doNothingはチラつき対策で必要
   cssTransitionClassNames: 'right' | 'left' | 'doNothing'
   isFadeout: boolean
-  isOnClick: boolean
+  // 連打対策
+  isOnClikeCircleButton: boolean
   cardHorizontalPosition: number | null
   isSwipe: boolean
   index: number
@@ -25,7 +26,7 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
       users: users,
       cssTransitionClassNames: 'doNothing',
       isFadeout: false,
-      isOnClick: false,
+      isOnClikeCircleButton: false,
       cardHorizontalPosition: null,
       isSwipe: false,
       index: 1,
@@ -34,13 +35,13 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
   }
 
   render() {
-    const { cssTransitionIn, users, cssTransitionClassNames, isFadeout, isOnClick, cardHorizontalPosition, isSwipe, index, showUserDetail } = this.state
+    const { cssTransitionIn, users, cssTransitionClassNames, isFadeout, isOnClikeCircleButton, cardHorizontalPosition, isSwipe, index, showUserDetail } = this.state
     const passProps = {
       cssTransitionIn,
       users,
       cssTransitionClassNames,
       isFadeout,
-      isOnClick,
+      isOnClikeCircleButton,
       cardHorizontalPosition,
       frontUser: users[0],
       onClickCircleButton: this.onClickCircleButton,
@@ -59,9 +60,9 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
   }
 
   private onClickCircleButton = (cssTransitionIn: boolean, frontUser: UserType, users: UserType[], isLike: boolean) => {
-    this.setState({ cssTransitionIn: !cssTransitionIn, cssTransitionClassNames: isLike ? 'right' : 'left', isSwipe: false, isFadeout: true, isOnClick: true })
+    this.setState({ cssTransitionIn: !cssTransitionIn, cssTransitionClassNames: isLike ? 'right' : 'left', isSwipe: false, isFadeout: true, isOnClikeCircleButton: true })
     window.setTimeout(() => {
-      this.setState({ users: users.slice(1, users.length).concat(frontUser), isFadeout: false, isOnClick: false, showUserDetail: false, cssTransitionIn: !!cssTransitionIn, cssTransitionClassNames: 'doNothing' })
+      this.setState({ users: users.slice(1, users.length).concat(frontUser), isFadeout: false, isOnClikeCircleButton: false, showUserDetail: false, cssTransitionIn: !!cssTransitionIn, cssTransitionClassNames: 'doNothing' })
     }, 500)
   }
 

@@ -269,7 +269,7 @@ export const AppScreen: React.SFC<AppPropsType> = ({
   users,
   cssTransitionClassNames,
   isFadeout,
-  isOnClick,
+  isOnClikeCircleButton,
   cardHorizontalPosition,
   frontUser,
   onClickCircleButton,
@@ -341,7 +341,7 @@ export const AppScreen: React.SFC<AppPropsType> = ({
                 src={require('../../images/x_mark_red.png')}
                 onClick={() => {
                   const isLike = false
-                  isOnClick ? null : onClickCircleButton(cssTransitionIn, frontUser, users, isLike)
+                  isOnClikeCircleButton ? null : onClickCircleButton(cssTransitionIn, frontUser, users, isLike)
                 }}
             />
             <CircleButton 
@@ -349,7 +349,7 @@ export const AppScreen: React.SFC<AppPropsType> = ({
                 style={{ marginLeft: 50 }} 
                 onClick={() => {
                   const isLike = true
-                  isOnClick ? null : onClickCircleButton(cssTransitionIn, frontUser, users, isLike)
+                  isOnClikeCircleButton ? null : onClickCircleButton(cssTransitionIn, frontUser, users, isLike)
                 }}
             />
           </ButtonWrapper>
