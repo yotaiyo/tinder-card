@@ -114,7 +114,7 @@ export const AppScreen: React.SFC<AppPropsType> = ({
           }
           // indexが変わらないように対策
           hysteresis={1}
-          // 早くスワイプしたとき、indexが変わらないように対策
+          // 速くスワイプしたとき、indexが変わらないように対策
           threshold={10000000}
           disabled={showUserDetail}
         >
