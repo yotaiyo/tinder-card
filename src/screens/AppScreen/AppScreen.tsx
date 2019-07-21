@@ -288,12 +288,14 @@ export const AppScreen: React.SFC<AppPropsType> = ({
 }) => {
     return (
         <Wrapper>
-          <BackCard 
-            icon={backUser.icon} 
-            nickName={backUser.nickName} 
-            age={backUser.age}
-            description={backUser.description}
-          />
+          { (isSwipe || isFadeout) &&
+            <BackCard 
+              icon={backUser.icon} 
+              nickName={backUser.nickName} 
+              age={backUser.age}
+              description={backUser.description}
+            />
+          }
           <CSSTransition
               in={cssTransitionIn}
               classNames={isLike ? 'like' : 'nope'}
@@ -308,7 +310,7 @@ export const AppScreen: React.SFC<AppPropsType> = ({
               hysteresis={1}
               threshold={10000000}
               disabled={showUserDetail}
-            >  
+            >
               <div />
               <FrontCard 
                 icon={frontUser.icon} 
