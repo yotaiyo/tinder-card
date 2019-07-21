@@ -133,11 +133,14 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
     cardHorizontalPosition: number | null,
     index: number
   ) => {
-    this.setState({ isFadeout: false });
-    // もしカードのindexが1からズレた場合、元に戻す。
-    this.setState({ index: index !== 1 ? 1 : 1 });
+    this.setState({
+      isFadeout: false,
+      // もしカードのindexが1からズレた場合、元に戻す。
+      index: index !== 1 ? 1 : 1
+    });
     if (cardHorizontalPosition > 55 || cardHorizontalPosition < -50) {
       this.setState({
+        // cardHorizontalPositionの初期位置は5
         cardHorizontalPosition: 5,
         users: users.slice(1, users.length).concat(frontUser),
         cssTransitionIn: !cssTransitionIn,
