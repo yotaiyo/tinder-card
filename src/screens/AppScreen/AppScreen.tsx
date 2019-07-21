@@ -307,7 +307,9 @@ export const AppScreen: React.SFC<AppPropsType> = ({
               onTouchEnd={() => handleTouchEnd(cssTransitionIn, cardHorizontalPosition)}
               onChangeIndex={(index) => handleChangeIndex(index)}
               onTransitionEnd={() => handleTransitionEnd(cssTransitionIn, frontUser, users, cardHorizontalPosition, index)}
+              // indexが変わらないように対策
               hysteresis={1}
+              // 早くスワイプしたとき、indexが変わらないように対策
               threshold={10000000}
               disabled={showUserDetail}
             >

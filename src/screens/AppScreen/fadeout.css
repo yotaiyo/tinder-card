@@ -1,21 +1,21 @@
+/* Nopeのときのアニメーション */
 .left-enter-active {
     transform: translate(-500%, 0) rotate(-150deg);
     -webkit-transform: translate(-500%, 0) rotate(-150deg);
     transition-duration: 2s;
 }
-
 .left-exit-active {
     transform: translate(-500%, 0) rotate(-150deg);
     -webkit-transform: translate(-500%, 0) rotate(-150deg);
     transition-duration: 2s;
 }
 
+/* likeのときのアニメーション */
 .right-enter-active {
     transform: translate(500%, 0) rotate(150deg);
     -webkit-transform: translate(500%, 0) rotate(150deg);
     transition-duration: 2s;
 }
-
 .right-exit-active {
     transform: translate(500%, 0) rotate(150deg);
     -webkit-transform: translate(500%, 0) rotate(150deg);
