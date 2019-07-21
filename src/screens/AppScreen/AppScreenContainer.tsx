@@ -43,8 +43,7 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
       isOnClick,
       cardHorizontalPosition,
       frontUser: users[0],
-      onClickXButton: this.onClickXButton,
-      onClickHeartButton: this.onClickHeartButton,
+      onClickCircleButton: this.onClickCircleButton,
       handleTouchMove: this.handleTouchMove,
       isSwipe,
       handleTouchEnd: this.handleTouchEnd,
@@ -59,15 +58,8 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
     return <AppScreen {...passProps} />
   }
 
-  private onClickXButton = (cssTransitionIn: boolean, frontUser: UserType, users: UserType[]) => {
-    this.setState({ cssTransitionIn: !cssTransitionIn, cssTransitionClassNames: 'left', isSwipe: false, isFadeout: true, isOnClick: true })
-    window.setTimeout(() => {
-      this.setState({ users: users.slice(1, users.length).concat(frontUser), isFadeout: false, isOnClick: false, showUserDetail: false, cssTransitionIn: !!cssTransitionIn, cssTransitionClassNames: 'doNothing' })
-    }, 500)
-  }
-
-  private onClickHeartButton = (cssTransitionIn: boolean, frontUser: UserType, users: UserType[]) => {
-    this.setState({ cssTransitionIn: !cssTransitionIn, cssTransitionClassNames: 'right', isSwipe: false, isFadeout: true, isOnClick: true })
+  private onClickCircleButton = (cssTransitionIn: boolean, frontUser: UserType, users: UserType[], isLike: boolean) => {
+    this.setState({ cssTransitionIn: !cssTransitionIn, cssTransitionClassNames: isLike ? 'right' : 'left', isSwipe: false, isFadeout: true, isOnClick: true })
     window.setTimeout(() => {
       this.setState({ users: users.slice(1, users.length).concat(frontUser), isFadeout: false, isOnClick: false, showUserDetail: false, cssTransitionIn: !!cssTransitionIn, cssTransitionClassNames: 'doNothing' })
     }, 500)

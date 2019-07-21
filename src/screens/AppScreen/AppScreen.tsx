@@ -254,8 +254,7 @@ const UserDetail = ({ nickName, age, description, distance }: Pick<UserType, 'ni
 
 interface AppPropsType extends AppStateType {
   frontUser: UserType,
-  onClickXButton: (cssTransitionIn: boolean, frontUser: UserType, users: UserType[]) => void
-  onClickHeartButton: (cssTransitionIn: boolean, frontUser: UserType, users: UserType[]) => void
+  onClickCircleButton: (cssTransitionIn: boolean, frontUser: UserType, users: UserType[], isLike: boolean) => void
   handleTouchMove: () => void
   handleTouchEnd: (cssTransitionIn: boolean, cardHorizontalPosition: number) => void
   handleChangeIndex: (index: number) => void
@@ -273,8 +272,7 @@ export const AppScreen: React.SFC<AppPropsType> = ({
   isOnClick,
   cardHorizontalPosition,
   frontUser,
-  onClickXButton,
-  onClickHeartButton,
+  onClickCircleButton,
   handleTouchMove,
   isSwipe,
   handleTouchEnd,
@@ -341,12 +339,18 @@ export const AppScreen: React.SFC<AppPropsType> = ({
           <ButtonWrapper>
             <CircleButton 
                 src={require('../../images/x_mark_red.png')}
-                onClick={() => isOnClick ? null : onClickXButton(cssTransitionIn, frontUser, users)}
+                onClick={() => {
+                  const isLike = false
+                  isOnClick ? null : onClickCircleButton(cssTransitionIn, frontUser, users, isLike)
+                }}
             />
             <CircleButton 
                 src={require('../../images/heart_green.png')} 
                 style={{ marginLeft: 50 }} 
-                onClick={() => isOnClick ? null : onClickHeartButton(cssTransitionIn, frontUser, users)}
+                onClick={() => {
+                  const isLike = true
+                  isOnClick ? null : onClickCircleButton(cssTransitionIn, frontUser, users, isLike)
+                }}
             />
           </ButtonWrapper>
       </Wrapper>
