@@ -21,13 +21,12 @@ const Nope = style.div`
 const Like = style.div`
   font-size: 40px;
   font-weight: bold;
-  top: 100px;
   color: green;
   transform: rotate(-20deg);
   border: solid 3px green;
   padding-left: 5px;
   padding-right: 5px;
-  width: 150px;
+  width: 120px;
   text-align: center;
   float: left;
   margin-top: 50px;
