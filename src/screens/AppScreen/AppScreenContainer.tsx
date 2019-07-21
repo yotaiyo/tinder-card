@@ -34,8 +34,6 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
 
   render() {
     const { cssTransitionIn, users, isLike, isFadeout, isOnClick, cardHorizontalPosition, isSwipe, index, showUserDetail } = this.state
-    const frontUser = users[0]
-    const backUser = users[1]
     const passProps = {
       cssTransitionIn,
       users,
@@ -43,7 +41,7 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
       isFadeout,
       isOnClick,
       cardHorizontalPosition,
-      frontUser,
+      frontUser: users[0],
       onClickXButton: this.onClickXButton,
       onClickHeartButton: this.onClickHeartButton,
       handleTouchMove: this.handleTouchMove,
@@ -52,7 +50,7 @@ class AppScreenContainer extends React.Component<{}, AppStateType> {
       index,
       handleChangeIndex: this.handleChangeIndex,
       handleTransitionEnd: this.handleTransitionEnd,
-      backUser,
+      backUser: users[1],
       showUserDetail,
       onClickInfoButton: this.onClickInfoButton,
       onClickArrowButton: this.onClickArrowButton
