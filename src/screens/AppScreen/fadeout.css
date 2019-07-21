@@ -1,20 +1,22 @@
-.nope-enter-active {
-    transform: translate(-500%, 0) rotate(-150deg);
-    -webkit-transform: translate(-500%, 0) rotate(-150deg);
-    transition-duration: 2s;
-}
-.nope-exit-active {
+.left-enter-active {
     transform: translate(-500%, 0) rotate(-150deg);
     -webkit-transform: translate(-500%, 0) rotate(-150deg);
     transition-duration: 2s;
 }
 
-.like-enter-active {
+.left-exit-active {
+    transform: translate(-500%, 0) rotate(-150deg);
+    -webkit-transform: translate(-500%, 0) rotate(-150deg);
+    transition-duration: 2s;
+}
+
+.right-enter-active {
     transform: translate(500%, 0) rotate(150deg);
     -webkit-transform: translate(500%, 0) rotate(150deg);
     transition-duration: 2s;
 }
-.like-exit-active {
+
+.right-exit-active {
     transform: translate(500%, 0) rotate(150deg);
     -webkit-transform: translate(500%, 0) rotate(150deg);
     transition-duration: 2s;
