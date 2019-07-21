@@ -1,268 +1,64 @@
-import * as React from 'react'
-import style from 'styled-components'
-import { CSSTransition } from 'react-transition-group'
-import { AppStateType } from './AppScreenContainer'
-import SwipeableView from 'react-swipeable-views'
+import * as React from 'react';
+import style from 'styled-components';
+import { CSSTransition } from 'react-transition-group';
+import { AppStateType } from './AppScreenContainer';
+import SwipeableView from 'react-swipeable-views';
+import { FrontCard, BackCard } from './components/Card';
+import { UserDetail } from './components/UserDetail';
 
-const height = window.innerHeight
-const width = window.innerWidth
+const height = window.innerHeight;
 
 const Wrapper = style.div`
   font-family: 'Vollkorn', serif;
   padding-top: 10px;
-`
-
-const CardWrapper = style.div`
-  height: ${height - 80}px;
-  width: ${width - 10}px;
-  background-size: cover;
-  border-radius: 10px;
-  margin-left: 5px;
-  margin-right: 5px;
-  margin-bottom: 12px;
-`
-
-const Nope = style.div`
-  font-size: 40px;
-  font-weight: bold;
-  color: red;
-  transform: rotate(20deg);
-  border: solid 3px red;
-  padding-left: 5px;
-  padding-right: 5px;
-  width: 120px;
-  text-align: center;
-  float: right;
-  margin-top: 50px;
-  margin-right: 30px;
-`
-
-const Like = style.div`
-  font-size: 40px;
-  font-weight: bold;
-  top: 100px;
-  color: green;
-  transform: rotate(-20deg);
-  border: solid 3px green;
-  padding-left: 5px;
-  padding-right: 5px;
-  width: 150px;
-  text-align: center;
-  float: left;
-  margin-top: 50px;
-  margin-left: 30px;
-`
-
-const UserInfo = style.div`
-  color: #fff;
-  padding-top: ${height - 210}px;
-  width: ${width - 50}px;
-  margin-left: 20px;
-`
-
-const NickName = style.span`
-  font-size: 35px;
-  font-weight: bold;
-`
-
-const Age = style.span`
-  font-size: 25px;
-  margin-left: 10px;
-`
-
-const DescriptionAndInfoButtonWrapper = style.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`
-
-const TwoLinesDescription = style.div`
-  overflow: hidden;
-  height: 3.6em;
-  font-size: 16px;
-  line-height: 1.8;
-  white-space: pre-line;
-`
-
-const InfoButton = style.img`
-  width: 18px;
-  height: 18px;
-  background-color: #fff;
-  border-radius: 10px;
-  margin-top: 15px;
-`
-
-const ArrowButton = style.img`
-  width: 15px;
-  height: 15px;
-  background-color: red;
-  padding: 5px;
-  border-radius: 30px;
-  position: absolute;
-  top: ${height - 95}px;
-  left: ${2 * width - 46}px;
-`
+`;
 
 const ButtonWrapper = style.div`
   position: fixed;
   top: ${height - 55}px;
   width: 100%;
   text-align: center;
-`
+`;
 
 const CircleButton = style.img`
   width: 25px; 
   background: #fff;
   padding: 10px;
   border-radius: 30px;
-`
-
-const UserDetailWrapper = style.div`
-  position: absolute;
-  top: ${height - 50}px;
-  padding-bottom: 70px;
-  width: ${width}px;
-`
-
-const NickNameAndAgeWrapper = style.div`
-  margin-left: 10px;
-`
-
-const DistanceWrapper = style.div`
-  border-bottom: solid 1px #C0C0C0;
-  padding-left: 10px;
-  padding-bottom: 10px; 
-`
-
-const LocationIcon = style.img`
-  width: 20px;
-  height: 20px;
-`
-
-const Distance = style.span`
-  margin-left: 5px;
-`
-
-const Description = style.div`
-  font-size: 16px;
-  line-height: 1.8;
-  white-space: pre-line;
-  margin-left: 10px;
-  margin-top: 10px;
-`
+`;
 
 export interface UserType {
-  icon: string
-  nickName: string
-  age: number
-  description: string
-  distance: number
+  icon: string;
+  nickName: string;
+  age: number;
+  description: string;
+  distance: number;
 }
-
-const LikeOrNopeSquare = ({ isFadeout, cssTransitionClassNames, cardHorizontalPosition, isSwipe }) => {
-  return(
-    <>
-      {isFadeout && !isSwipe ? 
-        cssTransitionClassNames == 'right' ? 
-          <Like>Like</Like>
-          : <Nope>Nope</Nope>
-      : null
-      }
-      {!isFadeout && isSwipe &&
-        cardHorizontalPosition > 50 ?
-          <Like style={{ left: width + 40 }}>Like</Like>
-          : null
-      }
-      {!isFadeout && isSwipe &&   
-        cardHorizontalPosition < -50 ?
-          <Nope style={{ right: -width + 40 }} >Nope</Nope>
-          : null            
-      }
-    </>
-  )
-}
-
-interface FrontCardType extends Pick<UserType, 'icon' | 'nickName' | 'age' | 'description'> {
-  cssTransitionClassNames: 'right' | 'left' | 'doNothing'
-  isFadeout: boolean
-  cardHorizontalPosition: number | null
-  isSwipe: boolean
-  showUserDetail: boolean
-  onClickInfoButton: () => void
-  onClickArrowButton: () => void
-}
-
-const FrontCard = ({ 
-  icon, 
-  nickName, 
-  age, 
-  description, 
-  cssTransitionClassNames, 
-  isFadeout, 
-  cardHorizontalPosition, 
-  isSwipe, 
-  showUserDetail, 
-  onClickInfoButton,
-  onClickArrowButton
-}: FrontCardType) => {
-  return (
-    <CardWrapper style={{ background: `linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.5)), url(${icon})` }} id='card'>
-      <LikeOrNopeSquare isFadeout={isFadeout} cssTransitionClassNames={cssTransitionClassNames} cardHorizontalPosition={cardHorizontalPosition} isSwipe={isSwipe} />
-        { !showUserDetail &&
-          <UserInfo>
-            <NickName>{nickName}</NickName>
-            <Age>{age}</Age>
-            <DescriptionAndInfoButtonWrapper>
-              <TwoLinesDescription>{description}</TwoLinesDescription>
-              <InfoButton src={require('../../images/info.png')} onClick={onClickInfoButton}/>
-            </DescriptionAndInfoButtonWrapper>
-          </UserInfo>
-        }
-        {showUserDetail &&
-          <ArrowButton src={require('../../images/arrow.png')} onClick={onClickArrowButton} />
-        }
-    </CardWrapper>
-  )
-}
-
-const BackCard = ({ icon, nickName, age, description }: Pick<UserType, 'icon' | 'nickName' | 'age' | 'description'>) => (
-  <CardWrapper style={{ background: `linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.5)), url(${icon})`, position: 'absolute', left: 0, right: 0, margin: 'auto' }}>
-    <UserInfo>
-      <NickName>{nickName}</NickName>
-      <Age>{age}</Age>
-      <DescriptionAndInfoButtonWrapper>
-        <TwoLinesDescription>{description}</TwoLinesDescription>
-        <InfoButton src={require('../../images/info.png')} />
-      </DescriptionAndInfoButtonWrapper>
-    </UserInfo>
-  </CardWrapper>
-)
-
-const UserDetail = ({ nickName, age, description, distance }: Pick<UserType, 'nickName' | 'age' | 'description' | 'distance'>) => (
-  <UserDetailWrapper>
-    <NickNameAndAgeWrapper>
-      <NickName>{nickName}</NickName>
-      <Age>{age}</Age>
-    </NickNameAndAgeWrapper>
-    <DistanceWrapper>
-      <LocationIcon src={require('../../images/location.png')} />
-      <Distance>{`${distance} km 先`}</Distance>
-    </DistanceWrapper>
-    <Description>{description}</Description>
-  </UserDetailWrapper>
-)
 
 interface AppPropsType extends AppStateType {
-  frontUser: UserType,
-  onClickXButton: (cssTransitionIn: boolean, frontUser: UserType, users: UserType[]) => void
-  onClickHeartButton: (cssTransitionIn: boolean, frontUser: UserType, users: UserType[]) => void
-  handleTouchMove: () => void
-  handleTouchEnd: (cssTransitionIn: boolean, cardHorizontalPosition: number) => void
-  handleChangeIndex: (index: number) => void
-  handleTransitionEnd: (cssTransitionIn: boolean, frontUser: UserType, users: UserType[], cardHorizontalPosition: number | null, index: number) => void
-  backUser: UserType
-  onClickInfoButton: () => void
-  onClickArrowButton: () => void
+  frontUser: UserType;
+  onClickCircleButton: (
+    cssTransitionIn: boolean,
+    frontUser: UserType,
+    users: UserType[],
+    isLike: boolean
+  ) => void;
+  handleTouchMove: () => void;
+  handleTouchEnd: (
+    cssTransitionIn: boolean,
+    cardHorizontalPosition: number
+  ) => void;
+  handleChangeIndex: (index: number) => void;
+  handleTransitionEnd: (
+    cssTransitionIn: boolean,
+    frontUser: UserType,
+    users: UserType[],
+    cardHorizontalPosition: number | null,
+    index: number
+  ) => void;
+  backUser: UserType;
+  onClickInfoButton: () => void;
+  onClickArrowButton: () => void;
 }
 
 export const AppScreen: React.SFC<AppPropsType> = ({
@@ -270,11 +66,10 @@ export const AppScreen: React.SFC<AppPropsType> = ({
   users,
   cssTransitionClassNames,
   isFadeout,
-  isOnClick,
+  isOnClikeCircleButton,
   cardHorizontalPosition,
   frontUser,
-  onClickXButton,
-  onClickHeartButton,
+  onClickCircleButton,
   handleTouchMove,
   isSwipe,
   handleTouchEnd,
@@ -286,67 +81,89 @@ export const AppScreen: React.SFC<AppPropsType> = ({
   onClickInfoButton,
   onClickArrowButton
 }) => {
-    return (
-        <Wrapper>
-          { (isSwipe || isFadeout) &&
-            <BackCard 
-              icon={backUser.icon} 
-              nickName={backUser.nickName} 
-              age={backUser.age}
-              description={backUser.description}
-            />
+  return (
+    <Wrapper>
+      {(isSwipe || isFadeout) && (
+        <BackCard
+          icon={backUser.icon}
+          nickName={backUser.nickName}
+          age={backUser.age}
+          description={backUser.description}
+        />
+      )}
+      <CSSTransition
+        in={cssTransitionIn}
+        classNames={cssTransitionClassNames}
+        timeout={500}
+      >
+        <SwipeableView
+          index={index}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={() =>
+            handleTouchEnd(cssTransitionIn, cardHorizontalPosition)
           }
-          <CSSTransition
-              in={cssTransitionIn}
-              classNames={cssTransitionClassNames}
-              timeout={500}
-          >
-            <SwipeableView 
-              index={index}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={() => handleTouchEnd(cssTransitionIn, cardHorizontalPosition)}
-              onChangeIndex={(index) => handleChangeIndex(index)}
-              onTransitionEnd={() => handleTransitionEnd(cssTransitionIn, frontUser, users, cardHorizontalPosition, index)}
-              hysteresis={1}
-              threshold={10000000}
-              disabled={showUserDetail}
-            >
-              <div />
-              <FrontCard 
-                icon={frontUser.icon} 
-                nickName={frontUser.nickName} 
-                age={frontUser.age} 
-                description={frontUser.description}
-                cssTransitionClassNames={cssTransitionClassNames} 
-                isFadeout={isFadeout} 
-                cardHorizontalPosition={cardHorizontalPosition} 
-                isSwipe={isSwipe}
-                showUserDetail={showUserDetail}
-                onClickInfoButton={onClickInfoButton}
-                onClickArrowButton={onClickArrowButton}
-              />
-              <div />
-            </SwipeableView> 
-          </CSSTransition>
-          { showUserDetail &&
-            <UserDetail 
-              nickName={frontUser.nickName} 
-              age={frontUser.age} 
-              description={frontUser.description}
-              distance={frontUser.distance}
-            />
+          onChangeIndex={index => handleChangeIndex(index)}
+          onTransitionEnd={() =>
+            handleTransitionEnd(
+              cssTransitionIn,
+              frontUser,
+              users,
+              cardHorizontalPosition,
+              index
+            )
           }
-          <ButtonWrapper>
-            <CircleButton 
-                src={require('../../images/x_mark_red.png')}
-                onClick={() => isOnClick ? null : onClickXButton(cssTransitionIn, frontUser, users)}
-            />
-            <CircleButton 
-                src={require('../../images/heart_green.png')} 
-                style={{ marginLeft: 50 }} 
-                onClick={() => isOnClick ? null : onClickHeartButton(cssTransitionIn, frontUser, users)}
-            />
-          </ButtonWrapper>
-      </Wrapper>
-    )
-}
+          // indexが変わらないように対策
+          hysteresis={1}
+          // 早くスワイプしたとき、indexが変わらないように対策
+          threshold={10000000}
+          disabled={showUserDetail}
+        >
+          <div />
+          <FrontCard
+            icon={frontUser.icon}
+            nickName={frontUser.nickName}
+            age={frontUser.age}
+            description={frontUser.description}
+            cssTransitionClassNames={cssTransitionClassNames}
+            isFadeout={isFadeout}
+            cardHorizontalPosition={cardHorizontalPosition}
+            isSwipe={isSwipe}
+            showUserDetail={showUserDetail}
+            onClickInfoButton={onClickInfoButton}
+            onClickArrowButton={onClickArrowButton}
+          />
+          <div />
+        </SwipeableView>
+      </CSSTransition>
+      {showUserDetail && (
+        <UserDetail
+          nickName={frontUser.nickName}
+          age={frontUser.age}
+          description={frontUser.description}
+          distance={frontUser.distance}
+        />
+      )}
+      <ButtonWrapper>
+        <CircleButton
+          src={require('../../images/x_mark_red.png')}
+          onClick={() => {
+            const isLike = false;
+            isOnClikeCircleButton
+              ? null
+              : onClickCircleButton(cssTransitionIn, frontUser, users, isLike);
+          }}
+        />
+        <CircleButton
+          src={require('../../images/heart_green.png')}
+          style={{ marginLeft: 50 }}
+          onClick={() => {
+            const isLike = true;
+            isOnClikeCircleButton
+              ? null
+              : onClickCircleButton(cssTransitionIn, frontUser, users, isLike);
+          }}
+        />
+      </ButtonWrapper>
+    </Wrapper>
+  );
+};
