@@ -2,7 +2,8 @@
 
 ### OverView
 TinderのカードUIの再現。  
-スマホのブラウザ環境を想定。
+スマホのブラウザ環境を想定。  
+Chrome(Mac), Safari(iPhone 6)で動作確認済み。
 
 ### 使用ツール
 - React
