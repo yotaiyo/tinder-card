@@ -1,4 +1,4 @@
-# yotaiyo-tinder-card
+# tinder-card
 
 ### OverView
 TinderのカードUIの再現。  
@@ -15,8 +15,8 @@ Chrome(Mac), Safari(iPhone 6)で動作確認済み。
 
 ### Setup
 ```
-git clone git@github.com:yotaiyo/yotaiyo-tinder-card.git
-cd yotaiyo-tinder-card
+git clone git@github.com:yotaiyo/tinder-card.git
+cd tinder-card
 yarn
 yarn start
 ```
