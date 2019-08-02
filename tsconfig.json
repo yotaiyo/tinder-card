@@ -19,7 +19,6 @@
           "src/Screens/*"
         ],
       },
-      "noEmit": true,
       "skipLibCheck": true
     }
 }
